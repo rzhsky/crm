@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.EmployeeMapper">
+    <!--int addEmployee(Employee employee);-->
+    <insert id="addEmployee">
+		insert into employee(empname, sex, phone, addr, email, img, deptid, pid)
+		values(#{empname}, #{sex}, #{phone}, #{addr},#{email},#{img}, #{deptid}, #{pid})
+	</insert>
+
+    <!--Employee selectEmpById(Integer id);-->
+    <select id="selectEmpById" resultType="top.orz.crm.bean.Employee">
+		select * from employee where id = #{id}
+	</select>
+
+    <!--List<Department> selectDeptAll();-->
+    <select id="selectDeptAll" resultType="top.orz.crm.bean.Department">
+		select * from department
+	</select>
+
+    <!--List<Position> selectPositionAll();-->
+    <select id="selectPositionAll" resultType="top.orz.crm.bean.Position">
+		select * from position
+	</select>
+
+    <resultMap id="empMap" type="top.orz.crm.bean.Employee">
+        <id property="id" column="id"/>
+        <result property="empname" column="empname"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+        <result property="addr" column="addr"/>
+        <result property="email" column="email"/>
+
+        <association property="department" javaType="top.orz.crm.bean.Department">
+            <id property="id" column="id"/>
+            <result property="deptname" column="deptname"/>
+        </association>
+
+        <association property="position" javaType="top.orz.crm.bean.Position">
+            <id property="id" column="id"/>
+            <result property="positionname" column="positionname"/>
+        </association>
+    </resultMap>
+
+    <!--List<Employee> selectEmpAll();-->
+    <select id="selectEmpAll" resultMap="empMap">
+		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
+		d.id, d.deptname, p.id, p.positionname
+		from employee e, department d, position p
+	</select>
+</mapper>
