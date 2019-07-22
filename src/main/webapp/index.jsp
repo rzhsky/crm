@@ -28,24 +28,6 @@
         <i title="展开左侧栏" class="layui-icon layui-icon-shrink-right"></i>
 
     </div>
-    <ul class="layui-nav left fast-add" lay-filter="">
-        <li class="layui-nav-item">
-            <a href="javascript:;">+新增</a>
-            <dl class="layui-nav-child">
-                <!-- 二级菜单 -->
-                <dd>
-                    <a onclick="WeAdminShow('资讯','https://www.baidu.com/')"><i class="layui-icon layui-icon-list"></i>资讯</a>
-                </dd>
-                <dd>
-                    <a onclick="WeAdminShow('图片','http://www.baidu.com')"><i
-                            class="layui-icon layui-icon-picture-fine"></i>图片</a>
-                </dd>
-                <dd>
-                    <a onclick="WeAdminShow('用户','https://www.baidu.com/')"><i class="layui-icon layui-icon-user"></i>用户</a>
-                </dd>
-            </dl>
-        </li>
-    </ul>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
             <a href="javascript:;">Admin</a>
@@ -61,9 +43,6 @@
                     <a class="loginout" href="login.jsp">退出</a>
                 </dd>
             </dl>
-        </li>
-        <li class="layui-nav-item to-index">
-            <a href="/">前台首页</a>
         </li>
     </ul>
 
@@ -82,45 +61,16 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/member/list.jsp">
+                        <a _href="./pages/customer/customerlist.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>客户管理</cite>
-
+                            <cite>客户列表</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="./pages/member/del.jsp">
+                        <a _href="./pages/customer/list.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>客户管理</cite>
-
+                            <cite>客户跟进</cite>
                         </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="./pages/member/addInput.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>输入框操作</cite>
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="./pages/404.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>三级菜单演示</cite>
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="./pages/404.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>导航菜单演示</cite>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </li>
@@ -237,7 +187,7 @@
 <!-- 中部结束 -->
 <!-- 底部开始 -->
 <div class="footer">
-    <div class="copyright">Copyright ©2018 WeAdmin v1.0 All Rights Reserved</div>
+    <div class="copyright">Copyright ©2019 crm v1.0 All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
 <script type="text/javascript">

@@ -7,7 +7,7 @@ public class Customer {
     private Integer id;
     private String name;
     private Integer sex;
-    private String compary;
+    private String company;
     private String department;
     private String position;
     private String birthday;
@@ -23,11 +23,11 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, Integer sex, String compary, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark, Integer idelete, String deletetime) {
+    public Customer(Integer id, String name, Integer sex, String company, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark, Integer idelete, String deletetime) {
         this.id = id;
         this.name = name;
         this.sex = sex;
-        this.compary = compary;
+        this.company = company;
         this.department = department;
         this.position = position;
         this.birthday = birthday;
@@ -65,12 +65,12 @@ public class Customer {
         this.sex = sex;
     }
 
-    public String getCompary() {
-        return compary;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCompary(String compary) {
-        this.compary = compary;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getDepartment() {
@@ -167,7 +167,7 @@ public class Customer {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", sex=" + sex +
-                ", compary='" + compary + '\'' +
+                ", company='" + company + '\'' +
                 ", department='" + department + '\'' +
                 ", position='" + position + '\'' +
                 ", birthday='" + birthday + '\'' +

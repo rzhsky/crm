@@ -61,13 +61,13 @@
 							<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
 						</th>
 						<th>ID</th>
-						<th>用户名</th>
+						<th>公司名称</th>
+						<th>电话</th>
+						<th>负责人</th>
 						<th>性别</th>
-						<th>手机</th>
-						<th>邮箱</th>
-						<th>地址</th>
-						<th>加入时间</th>
-						<th>状态</th>
+						<th>部门</th>
+						<th>职位</th>
+						<th></th>
 						<th>操作</th>
 					</tr>
 				</thead>
