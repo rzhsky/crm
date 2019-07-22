@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.PositionMapper">
+    <!--List<Position> selectPositions(Integer start, Integer limit);-->
+    <select id="selectPositions" resultType="top.orz.crm.bean.Position">
+        select * from position where idelete=0 limit #{start}, #{limit}
+    </select>
+
+    <!--Integer getPositionCount();-->
+    <select id="getPositionCount" resultType="Integer">
+        select count(*) from position where idelete=0
+    </select>
+
+    <!--void addPosition(Position position);-->
+    <insert id="addPosition">
+      insert into position (positionname, createtime, level)
+      values (#{positionname}, #{createtime}, #{level});
+  </insert>
+
+    <!--void deletePosition(Integer id, String deleteTime);-->
+    <update id="deletePosition">
+        update position set idelete=1, deletetime=#{1} where id=#{0};
+    </update>
+
+
+    <!--void updatePosition(Position position);-->
+    <update id="updatePosition">
+        update position set positionname=#{positionname}, level=#{level}, createtime=#{createtime}
+        where id=#{id}
+    </update>
+
+</mapper>

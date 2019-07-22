@@ -64,7 +64,7 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping(value = "/emp/batchdel")
+    @PutMapping(value = "/emp/batchdel")
     public String batchDeleteEmp(@RequestParam String ids) {
 
         String[] split = ids.split(",");
@@ -95,18 +95,12 @@ public class EmployeeController {
     public Map<String, Object> searchEmp(@RequestParam String empname, @RequestParam String phone, @RequestParam Integer page, @RequestParam Integer limit) {
         Map<String, Object> map = new HashMap<>();
 
-        System.out.println(empname);
-        System.out.println(phone);
-        System.out.println(page);
-        System.out.println(limit);
         Employee employee = new Employee();
         employee.setEmpname(empname);
         employee.setPhone(phone);
 
         List<Employee> employees = employeeService.searchEmp(employee, page, limit);
-        for (Employee emp : employees) {
-            System.out.println(emp);
-        }
+
         Integer searchEmpCount = employeeService.searchEmpCount(employee);
         map.put("code", 0);
         map.put("msg", "");
