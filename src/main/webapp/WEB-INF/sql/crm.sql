@@ -11,7 +11,7 @@
  Target Server Version : 50527
  File Encoding         : 65001
 
- Date: 20/07/2019 09:24:49
+ Date: 21/07/2019 09:06:02
 */
 
 SET NAMES utf8mb4;
@@ -69,7 +69,7 @@ CREATE TABLE `department`  (
   `idelete` int(11) NULL DEFAULT 0 COMMENT '是否删除（0：未删除 1：删除）',
   `deletetime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for employee
@@ -87,8 +87,9 @@ CREATE TABLE `employee`  (
   `deletetime` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   `deptid` int(11) NOT NULL COMMENT '部门id',
   `pid` int(11) NOT NULL COMMENT '职务id',
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '666666' COMMENT '密码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '员工表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '员工表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for orders
@@ -113,11 +114,11 @@ CREATE TABLE `position`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '职务id',
   `positionname` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '职务名称',
   `createtime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建时间',
-  `level` int(11) NOT NULL COMMENT '职务级别',
+  `level` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '职务级别',
   `idelete` int(11) NULL DEFAULT 0 COMMENT '是否删除（0：未删除 1：删除）',
   `deletetime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '职务表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '职务表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for record

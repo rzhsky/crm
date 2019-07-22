@@ -10,17 +10,17 @@
 
     <!--Employee selectEmpById(Integer id);-->
     <select id="selectEmpById" resultType="top.orz.crm.bean.Employee">
-		select * from employee where id = #{id}
+		select * from employee where id = #{id} and idelete=0
 	</select>
 
     <!--List<Department> selectDeptAll();-->
     <select id="selectDeptAll" resultType="top.orz.crm.bean.Department">
-		select * from department
+		select * from department where idelete=0
 	</select>
 
     <!--List<Position> selectPositionAll();-->
     <select id="selectPositionAll" resultType="top.orz.crm.bean.Position">
-		select * from position
+		select * from position where idelete=0
 	</select>
 
     <resultMap id="empMap" type="top.orz.crm.bean.Employee">
@@ -32,20 +32,72 @@
         <result property="email" column="email"/>
 
         <association property="department" javaType="top.orz.crm.bean.Department">
-            <id property="id" column="id"/>
+            <id property="id" column="deptid"/>
             <result property="deptname" column="deptname"/>
         </association>
 
         <association property="position" javaType="top.orz.crm.bean.Position">
-            <id property="id" column="id"/>
+            <id property="id" column="pid"/>
             <result property="positionname" column="positionname"/>
         </association>
     </resultMap>
 
-    <!--List<Employee> selectEmpAll();-->
+    <!--List<Employee> selectEmpAll(Integer start, Integer limit);-->
     <select id="selectEmpAll" resultMap="empMap">
 		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
-		d.id, d.deptname, p.id, p.positionname
+		d.id deptid, d.deptname, p.id pid, p.positionname
 		from employee e, department d, position p
+		where e.idelete=0 and e.deptid=d.id and e.pid=p.id
+		limit #{0}, #{1}
 	</select>
+
+    <!--int getEmpCount();-->
+    <select id="getEmpCount" resultType="Integer">
+        select count(*) from employee where idelete=0
+    </select>
+
+    <!--void deleteEmp(Integer id, String deleteTime);-->
+    <update id="deleteEmp">
+        update employee set idelete=1, deletetime=#{1} where id=#{0}
+    </update>
+
+    <!--void updateEmp(Employee employee);-->
+    <update id="updateEmp">
+        update employee
+        set empname=#{empname},sex=#{sex},phone=#{phone},addr=#{addr},
+        email=#{email},deptid=#{deptid},pid=#{pid}
+        where id=#{id}
+    </update>
+
+    <!--List<Employee> searchEmp(Employee employee, Integer start, Integer limit);-->
+    <select id="searchEmp" resultMap="empMap">
+		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
+		d.id deptid, d.deptname, p.id pid, p.positionname
+		from employee e, department d, position p
+		<where>
+            e.idelete=0 and e.deptid=d.id and e.pid=p.id
+            <if test="employee.empname!=null and employee.empname.trim() != ''">
+                and e.empname=#{employee.empname}
+            </if>
+            <if test="employee.phone!=null and employee.phone.trim() != ''">
+                and e.phone=#{employee.phone}
+            </if>
+        </where>
+		limit #{start}, #{limit}
+	</select>
+
+    <!--Integer searchEmpCount(Employee employee);-->
+    <select id="searchEmpCount" resultType="Integer">
+        select count(*) from employee
+        <where>
+            idelete=0
+            <if test="empname!=null and empname.trim()!=''">
+                and empname=#{empname}
+            </if>
+            <if test="phone!=null and phone.trim()!=''">
+                and phone=#{phone}
+            </if>
+        </where>
+    </select>
+
 </mapper>

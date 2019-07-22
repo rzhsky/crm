@@ -61,7 +61,7 @@ layui.use(['laydate', 'jquery', 'admin'], function() {
 				time: 1000
 			});
 		});
-	}
+	};
 
 	window.delAll = function (argument) {
 		var data = tableCheck.getData();

@@ -4,6 +4,7 @@ import top.orz.crm.bean.Department;
 import top.orz.crm.bean.Employee;
 import top.orz.crm.bean.Position;
 
+import java.util.Date;
 import java.util.List;
 
 public interface EmployeeService {
@@ -13,5 +14,15 @@ public interface EmployeeService {
 
     List<Position> getPositionAll();
 
-    List<Employee> getEmpAll();
+    List<Employee> getEmpAll(Integer page, Integer limit);
+
+    Integer getEmpCount();
+
+    void deleteEmp(Integer id, Date deleteTime);
+
+    void updateEmp(Employee employee);
+
+    List<Employee> searchEmp(Employee employee, Integer page, Integer limit);
+
+    Integer searchEmpCount(Employee employee);
 }

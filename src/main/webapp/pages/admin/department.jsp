@@ -22,9 +22,9 @@
 <div class="weadmin-nav">
 			<span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">管理员管理</a>
+        <a href="">员工管理</a>
         <a>
-          <cite>管理员列表</cite></a>
+          <cite>员工列表</cite></a>
       </span>
     <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新">
@@ -81,7 +81,7 @@
                 <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
                     <i class="layui-icon">&#xe601;</i>
                 </a>
-                <a title="编辑" onclick="WeAdminShow('编辑','./edit.jsp')" href="javascript:;">
+                <a title="编辑" onclick="WeAdminShow('编辑','./edit-employee.jsp')" href="javascript:;">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">

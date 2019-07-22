@@ -33,4 +33,23 @@ public class EmployeeMapperTest extends BaseTest {
             System.out.println(department);
         }
     }
+
+    @Test
+    public void getEmpCount() {
+        int employee = employeeMapper.getEmpCount();
+        System.out.println(employee);
+    }
+
+    @Test
+    public void getEmp() {
+        Employee employee = new Employee();
+        employee.setPhone("18871015029");
+        List<Employee> employees = employeeMapper.searchEmp(employee, 0, 10);
+        for (Employee emp : employees){
+            System.out.println(emp);
+        }
+
+        Integer integer = employeeMapper.searchEmpCount(employee);
+        System.out.println(integer);
+    }
 }

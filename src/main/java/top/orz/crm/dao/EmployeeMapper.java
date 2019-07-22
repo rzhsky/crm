@@ -1,5 +1,6 @@
 package top.orz.crm.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.orz.crm.bean.Department;
 import top.orz.crm.bean.Employee;
@@ -17,5 +18,15 @@ public interface EmployeeMapper {
 
     List<Position> selectPositionAll();
 
-    List<Employee> selectEmpAll();
+    List<Employee> selectEmpAll(Integer start, Integer limit);
+
+    int getEmpCount();
+
+    void deleteEmp(Integer id, String deleteTime);
+
+    void updateEmp(Employee employee);
+
+    List<Employee> searchEmp(@Param("employee") Employee employee, @Param("start") Integer start, @Param("limit") Integer limit);
+
+    Integer searchEmpCount(Employee employee);
 }
