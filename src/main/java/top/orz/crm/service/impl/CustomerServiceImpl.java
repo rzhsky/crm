@@ -14,6 +14,13 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerMapper customerMapper;
 
     /**
+     * 添加客户信息
+     * @param customer
+     */
+    @Override
+    public void addCustomer(Customer customer) { customerMapper.addCustomer(customer); }
+
+    /**
      *显示所有客户列表
      */
     @Override

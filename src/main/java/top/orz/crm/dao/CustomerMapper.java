@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface CustomerMapper {
 
+    void addCustomer(Customer customer);
     List<Customer> selectAllCus();
     int cusCount();
 }

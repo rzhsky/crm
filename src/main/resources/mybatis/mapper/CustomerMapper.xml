@@ -11,4 +11,10 @@
     <select id="cusCount" resultType="Integer">
         select count(*) from customer
     </select>
+
+    <!--增加客户信息-->
+    <insert id="addcustomer">
+		insert into customer(company,name,sex,department,position,birthday,tel,email,qq,mob,address,remark)
+		values (#{company},#{name},#{sex},#{department},#{position},#{birthday},#{tel},#{email},#{qq},#{mob},#{address},#{remark})
+    </insert>
 </mapper>

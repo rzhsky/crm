@@ -34,10 +34,19 @@ public class CustomerController {
 
     }
 
-   /* *//**
-     * 添加客户
-     *//*
+
+    /**
+     * 添加员工信息
+     */
     @RequestMapping(value="/customer/add")
-    public */
+    public String addCustomer(Customer customer){
+        try {
+            customerService.addCustomer(customer);
+            return "1";
+        }catch (Exception e){
+            return "0";
+        }
+
+    }
 
 }
