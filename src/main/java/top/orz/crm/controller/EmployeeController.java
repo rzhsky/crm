@@ -103,7 +103,7 @@ public class EmployeeController {
         employee.setEmpname(empname);
         employee.setPhone(phone);
 
-        List<Employee> employees = employeeService.searchEmp(employee, 1, 10);
+        List<Employee> employees = employeeService.searchEmp(employee, page, limit);
         for (Employee emp : employees) {
             System.out.println(emp);
         }
