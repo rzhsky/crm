@@ -20,7 +20,7 @@ public interface EmployeeMapper {
 
     List<Employee> selectEmpAll(Integer start, Integer limit);
 
-    int getEmpCount();
+    Integer getEmpCount();
 
     void deleteEmp(Integer id, String deleteTime);
 
@@ -29,4 +29,14 @@ public interface EmployeeMapper {
     List<Employee> searchEmp(@Param("employee") Employee employee, @Param("start") Integer start, @Param("limit") Integer limit);
 
     Integer searchEmpCount(Employee employee);
+
+    List<Employee> getEmployees();
+
+    List<Employee> getEmpDel(int start, Integer limit);
+
+    Integer getEmpDelCount();
+
+    void restoreEmp(Integer id);
+
+    void completeDelEmp(Integer id);
 }

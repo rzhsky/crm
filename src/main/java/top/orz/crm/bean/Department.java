@@ -7,19 +7,22 @@ public class Department {
     private Integer id;
     private String deptname;
     private Integer parentid;
-    private String desc;
+    private String deptdesc;
     private String empid;
     private Integer idelete;
     private String deletetime;
 
+    private Employee employee;
+    private Department parent;
+
     public Department() {
     }
 
-    public Department(Integer id, String deptname, Integer parentid, String desc, String empid, Integer idelete, String deletetime) {
+    public Department(Integer id, String deptname, Integer parentid, String deptdesc, String empid, Integer idelete, String deletetime) {
         this.id = id;
         this.deptname = deptname;
         this.parentid = parentid;
-        this.desc = desc;
+        this.deptdesc = deptdesc;
         this.empid = empid;
         this.idelete = idelete;
         this.deletetime = deletetime;
@@ -49,12 +52,12 @@ public class Department {
         this.parentid = parentid;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDeptdesc() {
+        return deptdesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDeptdesc(String deptdesc) {
+        this.deptdesc = deptdesc;
     }
 
     public String getEmpid() {
@@ -81,13 +84,29 @@ public class Department {
         this.deletetime = deletetime;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Department getParent() {
+        return parent;
+    }
+
+    public void setParent(Department parent) {
+        this.parent = parent;
+    }
+
     @Override
     public String toString() {
         return "Department{" +
                 "id=" + id +
                 ", deptname='" + deptname + '\'' +
                 ", parentid=" + parentid +
-                ", desc='" + desc + '\'' +
+                ", deptdesc='" + deptdesc + '\'' +
                 ", empid='" + empid + '\'' +
                 ", idelete=" + idelete +
                 ", deletetime='" + deletetime + '\'' +

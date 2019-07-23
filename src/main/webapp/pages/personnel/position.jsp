@@ -120,12 +120,6 @@
                 },
                 error: function (layero, index) {
                     alert("出现错误");
-                },
-
-                end: function () {
-                    table.reload('position', { //表格的id
-                        url: '/position'
-                    });
                 }
             });
         };
@@ -137,7 +131,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-danger" onclick="delChoose('position', '/position/batchdel')"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="Add('添加职务','./add-position.jsp', '/position', 'position')"><i class="layui-icon"></i>添加
+        <button class="layui-btn" onclick="Add('添加职务','./add-position.jsp')"><i class="layui-icon"></i>添加
         </button>
     </div>
 </script>

@@ -18,11 +18,27 @@ public interface EmployeeService {
 
     Integer getEmpCount();
 
-    void deleteEmp(Integer id, Date deleteTime);
+    void deleteEmp(Integer id);
 
     void updateEmp(Employee employee);
 
     List<Employee> searchEmp(Employee employee, Integer page, Integer limit);
 
     Integer searchEmpCount(Employee employee);
+
+    List<Employee> getEmployees();
+
+    List<Employee> getEmpDel(Integer page, Integer limit);
+
+    Integer getEmpDelCount();
+
+    void restoreEmp(Integer id);
+
+    void completeDelEmp(Integer id);
+
+    void batchDeleteEmp(String ids);
+
+    void batchRestoreEmp(String ids);
+
+    void batchCompleteDelEmp(String ids);
 }

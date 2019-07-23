@@ -20,12 +20,12 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<Position> selectPositions(Integer page, Integer limit) {
-        return positionMapper.selectPositions(limit * (page - 1), limit);
+        return positionMapper.selectPositions(limit * (page - 1), limit, 0);
     }
 
     @Override
     public Integer getPositionCount() {
-        return positionMapper.getPositionCount();
+        return positionMapper.getPositionCount(0);
     }
 
     @Override
@@ -35,7 +35,6 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public void deletePosition(Integer id) {
-
         positionMapper.deletePosition(id, sdf.format(new Date()));
     }
 
@@ -52,5 +51,43 @@ public class PositionServiceImpl implements PositionService {
         for (String s : split) {
             positionMapper.deletePosition(Integer.valueOf(s), sdf.format(new Date()));
         }
+    }
+
+    @Override
+    public List<Position> getDelPositions(Integer page, Integer limit) {
+        return positionMapper.selectPositions(limit * (page - 1), limit, 1);
+    }
+
+    @Override
+    public Integer getDelPositionCount() {
+        return positionMapper.getPositionCount(1);
+    }
+
+    @Override
+    public void completeDelPosition(Integer id) {
+        positionMapper.completeDelPosition(id);
+    }
+
+    @Override
+    public void batchRestorePosition(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            positionMapper.restorePosition(Integer.valueOf(s));
+        }
+    }
+
+    @Override
+    public void batchCompleteDelPosition(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            positionMapper.completeDelPosition(Integer.valueOf(s));
+        }
+    }
+
+    @Override
+    public void restorePosition(Integer id) {
+        positionMapper.restorePosition(id);
     }
 }

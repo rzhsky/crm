@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.DepartmentMapper">
+    <resultMap id="departments" type="top.orz.crm.bean.Department">
+        <id property="id" column="id"/>
+        <result property="deptname" column="deptname"/>
+        <result property="deptdesc" column="deptdesc"/>
+
+        <association property="parent" javaType="top.orz.crm.bean.Department">
+            <id property="id" column="parentid"/>
+            <result property="deptname" column="parentname"/>
+        </association>
+
+        <association property="employee" javaType="top.orz.crm.bean.Employee">
+            <id property="id" column="eid"/>
+            <result property="empname" column="empname"/>
+            <result property="addr" column="addr"/>
+            <result property="phone" column="phone"/>
+        </association>
+    </resultMap>
+
+    <!--List<Department> selectDepartments(Integer start, Integer limit);-->
+    <select id="selectDepartments" resultMap="departments">
+        select d.id, d.deptdesc, d.deptname, p.id parentid, p.deptname parentname,
+        e.id eid, e.empname, e.addr, e.phone
+        from employee e, department d, department p
+        where d.idelete=0 and p.idelete=0 and e.idelete=0
+        and d.parentid = p.id and  d.empid=e.id
+        limit #{0}, #{1}
+    </select>
+
+    <!--Integer getDepartmentCount();-->
+    <select id="getDepartmentCount" resultType="Integer">
+        select count(*) from department d, employee e, department p
+        where d.idelete=0 and p.idelete=0 and e.idelete=0
+        and d.parentid = p.id and  d.empid=e.id
+    </select>
+
+    <!--void delDepartment(Integer id, String createTime);-->
+    <update id="delDepartment">
+        update department set idelete = 1, deletetime=#{1} where id=#{0};
+    </update>
+
+    <!--void addDepartment(Department department);-->
+    <insert id="addDepartment">
+        insert into department (deptname, parentid, deptdesc, empid)
+        values (#{deptname}, #{parentid}, #{deptdesc}, #{empid});
+    </insert>
+
+    <!--void updateDepartment(Department department);-->
+    <update id="updateDepartment">
+        update department
+        set deptname=#{deptname},deptdesc=#{deptdesc},empid=#{empid},parentid=#{parentid}
+        where id=#{id};
+    </update>
+
+    <!--List<Department> selectDelDepartments(int i, Integer limit);-->
+    <select id="selectDelDepartments" resultMap="departments">
+        select d.id, d.deptdesc, d.deptname, d.deletetime, p.id parentid, p.deptname parentname,
+        e.id eid, e.empname, e.addr, e.phone
+        from employee e, department d, department p
+        where d.idelete=1 and p.idelete=0 and e.idelete=0
+        and d.parentid = p.id and  d.empid=e.id
+        limit #{0}, #{1}
+    </select>
+
+    <!--Integer getDelDepartmentCount();-->
+    <select id="getDelDepartmentCount" resultType="Integer">
+        select count(*) from department d, employee e, department p
+        where d.idelete=1 and p.idelete=0 and e.idelete=0
+        and d.parentid = p.id and  d.empid=e.id
+    </select>
+
+    <!--void restoreDepartment(Integer id);-->
+    <update id="restoreDepartment">
+        update department set idelete = 0 where id=#{id};
+    </update>
+
+    <!--void completeDelDepartment(Integer id);-->
+    <delete id="completeDelDepartment">
+        delete from department where id=#{id}
+    </delete>
+
+</mapper>

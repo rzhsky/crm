@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.orz.crm.dao.PositionMapper">
-    <!--List<Position> selectPositions(Integer start, Integer limit);-->
+    <!--List<Position> selectPositions(@Param("start") Integer start, @Param("limit") Integer limit, @Param("isdel") Integer isdel);-->
     <select id="selectPositions" resultType="top.orz.crm.bean.Position">
-        select * from position where idelete=0 limit #{start}, #{limit}
+        select * from position where idelete=#{isdel} limit #{start}, #{limit}
     </select>
 
-    <!--Integer getPositionCount();-->
+    <!--Integer getPositionCount(Integer isdel);-->
     <select id="getPositionCount" resultType="Integer">
-        select count(*) from position where idelete=0
+        select count(*) from position where idelete=#{isdel}
     </select>
 
     <!--void addPosition(Position position);-->
@@ -30,4 +30,13 @@
         where id=#{id}
     </update>
 
+    <!--void completeDelPosition(Integer id);-->
+    <delete id="completeDelPosition">
+        delete from position where id=#{id}
+    </delete>
+
+    <!--void restorePosition(Integer id);-->
+    <update id="restorePosition">
+        update position set idelete=0 where id=#{id};
+    </update>
 </mapper>

@@ -189,28 +189,59 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/admin/department.jsp">
+                        <a _href="./pages/personnel/department.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>部门管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="./pages/admin/position.jsp">
+                        <a _href="./pages/personnel/position.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>职务管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="./pages/admin/employee.jsp">
+                        <a _href="./pages/personnel/employee.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>员工管理</cite>
                         </a>
                     </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6b1;</i>
+                    <cite>数据回收站</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/admin/rule.jsp">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限管理</cite>
+                        <a href="javascript:;">
+                            <i class="iconfont">&#xe6b1;</i>
+                            <cite>人事回收站</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
                         </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a _href="./pages/recycle/department.jsp">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>部门回收</cite>
+                                </a>
+                            </li>
+                            <li>
+                                <a _href="./pages/recycle/position.jsp">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>职务回收</cite>
+                                </a>
+                            </li>
+                            <li>
+                                <a _href="./pages/recycle/employee.jsp">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>员工回收</cite>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>

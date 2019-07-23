@@ -109,7 +109,7 @@
         form.render();
         //自定义验证规则
 
-        $.post("/dept/all", function (data) {
+        $.get("/dept/all", function (data) {
             for (let i = 0; i < data.length; i++) {
                 $("#deptid").append('<option value="' + data[i].id + '">' + data[i].deptname + '</option>');
             }
@@ -118,7 +118,7 @@
             console.log(data);
         });
 
-        $.post("/position/all", function (data) {
+        $.get("/position/all", function (data) {
             for (let i = 0; i < data.length; i++) {
                 $("#pid").append('<option value="' + data[i].id + '">' + data[i].positionname + '</option>');
             }
@@ -143,6 +143,10 @@
                             // 获得frame索引
                             let index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
+
+                            parent.layui.table.reload('emp', {
+                                url: '/emp/all'
+                            });
                             parent.layer.close(index);
                         });
                     } else {

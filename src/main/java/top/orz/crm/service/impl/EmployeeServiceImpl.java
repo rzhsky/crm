@@ -18,6 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @Override
     public void addEmployee(Employee employee) {
         employeeMapper.addEmployee(employee);
@@ -44,9 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmp(Integer id, Date deleteTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        employeeMapper.deleteEmp(id, sdf.format(deleteTime));
+    public void deleteEmp(Integer id) {
+        employeeMapper.deleteEmp(id, sdf.format(new Date()));
     }
 
     @Override
@@ -62,5 +63,57 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Integer searchEmpCount(Employee employee) {
         return employeeMapper.searchEmpCount(employee);
+    }
+
+    @Override
+    public List<Employee> getEmployees() {
+        return employeeMapper.getEmployees();
+    }
+
+    @Override
+    public List<Employee> getEmpDel(Integer page, Integer limit) {
+        return employeeMapper.getEmpDel(limit * (page - 1), limit);
+    }
+
+    @Override
+    public Integer getEmpDelCount() {
+        return employeeMapper.getEmpDelCount();
+    }
+
+    @Override
+    public void restoreEmp(Integer id) {
+        employeeMapper.restoreEmp(id);
+    }
+
+    @Override
+    public void completeDelEmp(Integer id) {
+        employeeMapper.completeDelEmp(id);
+    }
+
+    @Override
+    public void batchDeleteEmp(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            employeeMapper.deleteEmp(Integer.valueOf(s), sdf.format(new Date()));
+        }
+    }
+
+    @Override
+    public void batchRestoreEmp(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            employeeMapper.restoreEmp(Integer.valueOf(s));
+        }
+    }
+
+    @Override
+    public void batchCompleteDelEmp(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            employeeMapper.completeDelEmp(Integer.valueOf(s));
+        }
     }
 }

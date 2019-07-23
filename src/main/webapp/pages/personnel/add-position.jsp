@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+    <title>添加职务</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -21,12 +21,6 @@
 <body>
 <div class="weadmin-body">
     <form class="layui-form">
-        <div class="layui-form-item">
-            <div class="layui-input-inline">
-                <input type="hidden" id="id" name="id" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
         <div class="layui-form-item">
             <label for="positionname" class="layui-form-label">
                 <span class="we-red">*</span>职务名称
@@ -61,7 +55,7 @@
         </div>
 
         <div class="layui-form-item">
-            <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
+            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
         </div>
     </form>
 </div>
@@ -70,47 +64,43 @@
     layui.extend({
         admin: '{/}../../static/js/admin'
     });
-    layui.use(['form', 'layer', 'admin', 'table'], function () {
+    layui.use(['form', 'layer', 'admin', 'jquery'], function () {
         let form = layui.form,
             admin = layui.admin,
             layer = layui.layer,
-            $ = layui.jquery,
-            table = layui.table;
+            $ = layui.jquery;
+        form.render();
+        //自定义验证规则
 
-        //监听提交
-        form.on('submit(update)', function (data) {
+        form.on('submit(add)', function (data) {
             console.log(data);
 
-            $.ajax({
-                url: "/position",
-                method: "put",
-                data: JSON.stringify(data.field),
-                dataType: "json",
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    if (data === 1) {
-                        console.log("修改成功");
-                        layer.alert("修改成功", {icon: 6}, function () {
-                            // 获得frame索引
-                            let index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
+            $.post("/position/", data.field, function (data) {
+                console.log(data);
+                if (data === '1') {
+                    console.log("增加成功");
+                    layer.alert("增加成功", {icon: 6}, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+                        parent.layui.table.reload('dept', {
+                            url: '/department'
                         });
-                    } else {
-                        layer.alert("修改失败", {icon: 6}, function () {
-                            // 获得frame索引
-                            let index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                        });
-                    }
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                } else {
+                    layer.alert("增加失败", {icon: 6}, function () {
+                        // 获得frame索引
+                        let index = parent.layer.getFrameIndex(window.name);
+
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
                 }
             });
 
             return false;
         });
-
     });
 </script>
 </body>

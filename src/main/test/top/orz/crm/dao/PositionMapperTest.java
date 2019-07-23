@@ -15,7 +15,7 @@ public class PositionMapperTest extends BaseTest {
 
     @Test
     public void selectPosition() {
-        List<Position> positions = positionMapper.selectPositions(0, 10);
+        List<Position> positions = positionMapper.selectPositions(0, 10, 1);
         for (Position position : positions) {
             System.out.println(position);
         }

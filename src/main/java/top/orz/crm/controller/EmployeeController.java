@@ -17,7 +17,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @RequestMapping(value = "/emp")
+    @PostMapping(value = "/emp")
     public String addEmployee(Employee employee) {
         try {
             employeeService.addEmployee(employee);
@@ -27,17 +27,22 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping(value = "/dept/all")
+    @GetMapping(value = "/emp")
+    public List<Employee> getEmployees(Employee employee) {
+        return employeeService.getEmployees();
+    }
+
+    @GetMapping(value = "/dept/all")
     public List<Department> getDeptAll() {
         return employeeService.getDeptAll();
     }
 
-    @RequestMapping(value = "/position/all")
+    @GetMapping(value = "/position/all")
     public List<Position> getPositionAll() {
         return employeeService.getPositionAll();
     }
 
-    @RequestMapping(value = "/emp/all")
+    @GetMapping(value = "/emp/all")
     public Map<String, Object> getEmpAll(@RequestParam Integer page, @RequestParam Integer limit) {
         Map<String, Object> map = new HashMap<>();
         List<Employee> empAll = employeeService.getEmpAll(page, limit);
@@ -51,12 +56,27 @@ public class EmployeeController {
         return map;
     }
 
+    @GetMapping(value = "/emp/del")
+    public Map<String, Object> getEmpDel(@RequestParam Integer page, @RequestParam Integer limit) {
+        Map<String, Object> map = new HashMap<>();
+        List<Employee> empDel = employeeService.getEmpDel(page, limit);
+        Integer empDelCount = employeeService.getEmpDelCount();
+
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", empDelCount);
+        map.put("data", empDel);
+
+        return map;
+    }
+
+
     @PutMapping(value = "/emp/{id}")
     public String deleteEmp(@PathVariable Integer id) {
 
         System.out.println(id);
         try {
-            employeeService.deleteEmp(id, new Date());
+            employeeService.deleteEmp(id);
             return "1";
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,13 +86,8 @@ public class EmployeeController {
 
     @PutMapping(value = "/emp/batchdel")
     public String batchDeleteEmp(@RequestParam String ids) {
-
-        String[] split = ids.split(",");
-
         try {
-            for (String s : split) {
-                employeeService.deleteEmp(Integer.valueOf(s), new Date());
-            }
+            employeeService.batchDeleteEmp(ids);
             return "1";
         } catch (Exception e) {
             return "0";
@@ -107,5 +122,47 @@ public class EmployeeController {
         map.put("count", searchEmpCount);
         map.put("data", employees);
         return map;
+    }
+
+    @PutMapping(value = "/emp/restore/{id}")
+    public String restoreEmp(@PathVariable Integer id) {
+        try {
+            employeeService.restoreEmp(id);
+            return "1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+    }
+
+    @DeleteMapping("/emp/{id}")
+    public String completeDelEmp(@PathVariable Integer id) {
+        try {
+            employeeService.completeDelEmp(id);
+            return "1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+    }
+
+    @PutMapping("/emp/batchrestore")
+    public String batchRestoreEmp(@RequestParam String ids) {
+        try {
+            employeeService.batchRestoreEmp(ids);
+            return "1";
+        } catch (Exception e) {
+            return "0";
+        }
+    }
+
+    @DeleteMapping("/emp/batchredelcomp")
+    public String batchCompleteDelEmp(@RequestParam String ids) {
+        try {
+            employeeService.batchCompleteDelEmp(ids);
+            return "1";
+        } catch (Exception e) {
+            return "0";
+        }
     }
 }

@@ -16,4 +16,16 @@ public interface PositionService {
     void updatePosition(Position position);
 
     void batchDeletePosition(String ids);
+
+    List<Position> getDelPositions(Integer page, Integer limit);
+
+    Integer getDelPositionCount();
+
+    void completeDelPosition(Integer id);
+
+    void batchRestorePosition(String ids);
+
+    void batchCompleteDelPosition(String ids);
+
+    void restorePosition(Integer id);
 }

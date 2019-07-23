@@ -52,4 +52,14 @@ public class EmployeeMapperTest extends BaseTest {
         Integer integer = employeeMapper.searchEmpCount(employee);
         System.out.println(integer);
     }
+
+    @Test
+    public void getEmpDel() {
+        List<Employee> employees = employeeMapper.getEmpDel(0, 10);
+        for (Employee emp : employees){
+            System.out.println(emp);
+        }
+
+    }
+
 }

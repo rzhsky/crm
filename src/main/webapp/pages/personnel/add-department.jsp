@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>添加职务</title>
+    <title>添加部门</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,40 +22,49 @@
 <div class="weadmin-body">
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="positionname" class="layui-form-label">
-                <span class="we-red">*</span>职务名称
+            <label for="deptname" class="layui-form-label">
+                <span class="we-red">*</span>部门名称
             </label>
-            <div class="layui-input-inline">
-                <input type="text" id="positionname" name="positionname" required="" lay-verify="required"
+            <div class="layui-input-block">
+                <input type="text" id="deptname" name="deptname" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="we-red">*</span>职务等级
+            <label for="parentid" class="layui-form-label">
+                <span class="we-red">*</span>上一级部门
             </label>
-            <div class="layui-input-inline">
-                <select id="level" name="level" lay-verify="">
-                    <option value="S级员工">S级员工</option>
-                    <option value="A级员工">A级员工</option>
-                    <option value="B级员工">B级员工</option>
-                    <option value="C级员工">C级员工</option>
+
+            <div class="layui-input-block">
+                <select id="parentid" name="parentid" lay-verify="">
                 </select>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="createtime" class="layui-form-label">
-                <span class="we-red">*</span>创建时间
+            <label for="empid" class="layui-form-label">
+                <span class="we-red">*</span>负责人
             </label>
-            <div class="layui-input-inline">
-                <input type="text" name="createtime" id="createtime" lay-verify="date" placeholder="yyyy-MM-dd"
-                       autocomplete="off" class="layui-input">
+
+            <div class="layui-input-block">
+                <select id="empid" name="empid" lay-verify="">
+                </select>
             </div>
         </div>
 
+
         <div class="layui-form-item">
-            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
+            <label for="deptdesc" class="layui-form-label">
+                <span class="we-red">*</span>描述
+            </label>
+            <div class="layui-input-block">
+                <textarea id="deptdesc" name="deptdesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div style="width: 216px; margin: 0 auto;">
+            <button class="layui-btn layui-btn-fluid" lay-filter="add" lay-submit="">增加</button>
         </div>
     </form>
 </div>
@@ -64,22 +73,37 @@
     layui.extend({
         admin: '{/}../../static/js/admin'
     });
-    layui.use(['form', 'layer', 'admin', 'jquery'], function () {
+    layui.use(['form', 'layer', 'admin', 'jquery', 'layedit'], function () {
+
         let form = layui.form,
-            admin = layui.admin,
             layer = layui.layer,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            layedit = layui.layedit;
+        let build = layedit.build('deptdesc'); //建立编辑器
         form.render();
-        //自定义验证规则
+
+        $.get("/dept/all", function (data) {
+            for (let i = 0; i < data.length; i++) {
+                $("#parentid").append('<option value="' + data[i].id + '">' + data[i].deptname + '</option>');
+            }
+
+            form.render();
+            console.log(data);
+        });
+
+        $.get("/emp", function (data) {
+            for (let i = 0; i < data.length; i++) {
+                $("#empid").append('<option value="' + data[i].id + '">' + data[i].department.deptname + '-' + data[i].empname + '</option>');
+            }
+
+            form.render();
+            console.log(data);
+        });
 
         form.on('submit(add)', function (data) {
-            console.log(data);
-
-            // $.ajax({
-            //     url: "/position/add",
-            //
-            // });
-            $.post("/position/", data.field, function (data) {
+            data.field.deptdesc = layedit.getContent(build);
+            console.log(JSON.stringify(data.field));
+            $.post("/department", data.field , function (data) {
                 console.log(data);
                 if (data === '1') {
                     console.log("增加成功");
@@ -87,6 +111,9 @@
                         // 获得frame索引
                         let index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
+                        parent.layui.table.reload('dept', {
+                            url: '/department'
+                        });
                         parent.layer.close(index);
                     });
                 } else {

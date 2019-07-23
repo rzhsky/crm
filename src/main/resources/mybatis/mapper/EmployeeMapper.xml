@@ -30,6 +30,7 @@
         <result property="phone" column="phone"/>
         <result property="addr" column="addr"/>
         <result property="email" column="email"/>
+        <result property="deletetime" column="deletetime"/>
 
         <association property="department" javaType="top.orz.crm.bean.Department">
             <id property="id" column="deptid"/>
@@ -47,11 +48,12 @@
 		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
 		d.id deptid, d.deptname, p.id pid, p.positionname
 		from employee e, department d, position p
-		where e.idelete=0 and e.deptid=d.id and e.pid=p.id
+		where e.idelete=0 and d.idelete=0 and p.idelete=0 and e.deptid=d.id and e.pid=p.id
+		order by e.id asc
 		limit #{0}, #{1}
 	</select>
 
-    <!--int getEmpCount();-->
+    <!--Integer getEmpCount();-->
     <select id="getEmpCount" resultType="Integer">
         select count(*) from employee where idelete=0
     </select>
@@ -77,10 +79,10 @@
 		<where>
             e.idelete=0 and e.deptid=d.id and e.pid=p.id
             <if test="employee.empname!=null and employee.empname.trim() != ''">
-                and e.empname=#{employee.empname}
+                and e.empname like '%${employee.empname}%'
             </if>
             <if test="employee.phone!=null and employee.phone.trim() != ''">
-                and e.phone=#{employee.phone}
+                and e.phone like '%${employee.phone}%'
             </if>
         </where>
 		limit #{start}, #{limit}
@@ -100,4 +102,37 @@
         </where>
     </select>
 
+    <!--List<Employee> getEmployees();-->
+    <select id="getEmployees" resultMap="empMap">
+		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
+		d.id deptid, d.deptname, p.id pid, p.positionname
+		from employee e, department d, position p
+		where e.idelete=0 and d.idelete=0 and p.idelete=0 and e.deptid=d.id and e.pid=p.id
+		order by d.id asc
+	</select>
+
+    <!--List<Employee> getEmpDel(int start, Integer limit);-->
+    <select id="getEmpDel" resultMap="empMap">
+		select e.id, e.empname, e.sex, e.phone, e.addr, e.email, e.deletetime,
+		d.id deptid, d.deptname, p.id pid, p.positionname
+		from employee e, department d, position p
+		where e.idelete=1 and d.idelete=0 and p.idelete=0 and e.deptid=d.id and e.pid=p.id
+		order by e.id asc
+		limit #{0}, #{1}
+	</select>
+
+    <!--Integer getEmpDelCount();-->
+    <select id="getEmpDelCount" resultType="Integer">
+        select count(*) from employee where idelete=1
+    </select>
+
+    <!--void restoreEmp(Integer id);-->
+    <update id="restoreEmp">
+        update employee set idelete=0 where id=#{id}
+    </update>
+
+    <!--void completeDelEmp(Integer id);-->
+    <delete id="completeDelEmp">
+        delete from employee where id=#{id}
+    </delete>
 </mapper>

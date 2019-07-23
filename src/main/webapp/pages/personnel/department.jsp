@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>员工管理</title>
+    <title>部门管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -20,11 +20,11 @@
 
 <body>
 <div class="weadmin-nav">
-      <span class="layui-breadcrumb">
+			<span class="layui-breadcrumb">
         <a href="">首页</a>
         <a href="">人事管理</a>
         <a>
-          <cite>员工管理</cite></a>
+          <cite>部门管理</cite></a>
       </span>
     <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新">
@@ -32,27 +32,22 @@
 </div>
 <div class="weadmin-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 we-search layui-form-pane">
+        <form class="layui-form layui-col-md12 we-search">
             <div class="layui-inline">
-                <input id="s_name" class="layui-input" placeholder="姓名" name="empname">
+                <input type="text" name="deptname" placeholder="部门名称" autocomplete="off" class="layui-input">
             </div>
-
             <div class="layui-inline">
-                <input id="s_phone" class="layui-input" placeholder="电话" name="phone">
+                <input type="text" name="empname" placeholder="负责人名称" autocomplete="off" class="layui-input">
             </div>
-            <button id="searchBtn" data-type="getInfo" class="layui-btn" lay-submit="" lay-filter="search"><i
-                    class="layui-icon">&#xe615;</i></button>
+            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-
-    <table id="emp" lay-filter="test"></table>
+    <table id="dept" lay-filter="test"></table>
 </div>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
-<script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../static/js/personnel.js" type="text/javascript" charset="utf-8"></script>
-<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-
-<script type="text/javascript">
+<script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+<script>
     layui.use('table', function () {
         let table = layui.table,
             $ = layui.jquery,
@@ -60,22 +55,21 @@
 
         //第一个实例
         table.render({
-            elem: '#emp',
+            elem: '#dept',
             height: 525,
             toolbar: '#toolbarDemo',
-            url: '/emp/all', //数据接口
+            url: '/department', //数据接口
             cellMinWidth: 80,
             page: true,//开启分页
             cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'},
                 {field: 'id', title: 'ID', sort: true},
-                {field: 'empname', title: '姓名', sort: true},
-                {field: 'sex', title: '性别', templet: '#sex'},
-                {field: 'phone', title: '电话'},
-                {field: 'addr', title: '地址'},
-                {field: 'email', title: '邮箱'},
-                {field: 'department', title: '部门', sort: true, templet: "#deptname"},
-                {field: 'position', title: '职位', sort: true, templet: "#positionname"},
+                {field: 'deptname', title: '部门名称', sort: true},
+                {field: 'parentname', title: '上一级部门', templet: "#parentname"},
+                {field: 'empname', title: '负责人名称', templet: "#empname"},
+                {field: 'phone', title: '联系电话', templet: "#phone"},
+                {field: 'addr', title: '联系地址', sort: true, templet: "#addr"},
+                {field: 'deptdesc', title: '部门描述'},
                 {field: 'operator', title: '操作', templet: '#operateTpl', fixed: 'right'},
             ]]
         });
@@ -83,16 +77,8 @@
         table.on('tool(test)', function (obj) {
             let data = obj.data;
             if (obj.event === 'edit') {
-                Edit("编辑", "./edit-employee.jsp", data)
+                Edit("编辑", "./edit-department.jsp", data)
             }
-        });
-
-        form.on('submit(search)', function (obj) {
-            table.reload('emp', { //表格的id
-                url: '/emp/search',
-                where: obj.field
-            });
-            return false;
         });
 
         window.Edit = function (title, url, data, w, h) {
@@ -118,37 +104,69 @@
                 title: title,
                 content: url,
                 success: function (layero, index) {
-                    //向iframe页的id=house的元素传值  //参考 https://yq.aliyun.com/ziliao/133150
                     let body = layer.getChildFrame('body', index);
                     body.contents().find("#id").val(data.id);
-                    body.contents().find("#dept").val(data.department.id);
-                    body.contents().find("#position").val(data.position.id);
+                    body.contents().find("#deptname").val(data.deptname);
+                    body.contents().find("#parentname").val(data.parent.id);
 
-                    body.contents().find("#empname").val(data.empname);
-                    body.contents().find("input:radio[value='" + data.sex + "']").attr('checked', 'true');//$("input:radio[value='rd2']").attr('checked','true');
-                    body.contents().find("#phone").val(data.phone);
-                    body.contents().find("#addr").val(data.addr);
-                    body.contents().find("#email").val(data.email);
+                    body.contents().find("#empname").val(data.employee.id);
+                    body.contents().find("#deptdesc").val(data.deptdesc);
                 },
                 error: function (layero, index) {
                     alert("出现错误");
-                },
-
-                end: function () {
-                    table.reload('emp', { //表格的id
-                        url: '/emp/all'
-                    });
                 }
             });
         };
-
     });
 </script>
+<script type="text/html" id="empname">
+    {{#
+    var fn = function(item){
+    var str = '';
 
+    str = item.empname;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.employee) }}</div>
+</script>
+<script type="text/html" id="phone">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    str = item.phone;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.employee) }}</div>
+</script>
+<script type="text/html" id="parentname">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    str = item.deptname;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.parent) }}</div>
+</script>
+<script type="text/html" id="addr">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    str = item.addr;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.employee) }}</div>
+</script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-danger" onclick="delChoose('emp', '/emp/batchdel')"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="Add('添加员工','./add-employee.jsp', '/emp/all', 'emp')"><i
+        <button class="layui-btn layui-btn-danger" onclick="delChoose('dept', '/department/batchdel')"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="Add('添加部门','./add-department.jsp')"><i
                 class="layui-icon"></i>添加
         </button>
     </div>
@@ -158,60 +176,10 @@
     <a title="编辑" href="javascript:;" lay-event="edit">
         <i class="layui-icon">&#xe642;</i>
     </a>
-    <a title="删除" onclick="del(this, '/emp', 'emp', '/emp/all')" href="javascript:;">
+    <a title="删除" onclick="del(this, '/department', 'dept', '/department')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
     </a>
 </script>
-
-
-<script type="text/html" id="sex">
-    {{#
-    var fn = function(item){
-    var str = '';
-
-    if(item === 1) str = '男';
-    else str = '女';
-    return str;
-    };
-    }}
-    <div>{{ fn(d.sex) }}</div>
-</script>
-
-<script type="text/html" id="deptname">
-    {{#
-    var fn = function(item){
-    var str = '';
-
-    str = item.deptname;
-    return str;
-    };
-    }}
-    <div>{{ fn(d.department) }}</div>
-</script>
-
-<script type="text/html" id="positionname">
-    {{#
-    var fn = function(item){
-    var str = '';
-
-    str = item.positionname;
-    return str;
-    };
-    }}
-    <div>{{ fn(d.position) }}</div>
-</script>
-
-<script type="text/html" id="operator">
-    {{#
-    var fn = function(){
-    var str = '';
-
-    return str;
-    };
-    }}
-    <div>{{ fn() }}</div>
-</script>
-
 </body>
 
 </html>
