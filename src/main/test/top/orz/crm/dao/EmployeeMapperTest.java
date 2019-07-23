@@ -14,11 +14,11 @@ public class EmployeeMapperTest extends BaseTest {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-    @Test
+  /*  @Test
     public void addEmployee() {
         Employee employee = new Employee("11", 1, "18871015029", "wqwq", "12@qq.com", 1, 1);
         employeeMapper.addEmployee(employee);
-    }
+    }*/
 
     @Test
     public void selectEmpById() {

@@ -29,45 +29,43 @@
 			</a>
 		</div>
 
-		<%--<div class="weadmin-body">--%>
+		<div class="weadmin-body">
 			<div class="layui-row">
-				<form class="layui-form layui-col-md12 we-search">
+				<form class="layui-form layui-col-md12 we-search layui-form-pane">
 					客户搜索：
 					<div class="layui-inline">
-						<input class="layui-input" placeholder="开始日" name="start" id="start" />
+						<input id="c_name" class="layui-input" placeholder="请输入负责人" name="name">
 					</div>
+
 					<div class="layui-inline">
-						<input class="layui-input" placeholder="截止日" name="end" id="end" />
+						<input id="c_company" class="layui-input" placeholder="请输入公司名" name="company">
 					</div>
-					<div class="layui-inline">
-						<input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input" />
-					</div>
-					<button class="layui-btn" lay-submit="" lay-filter="sreach">
+					<button class="layui-btn" lay-submit="" lay-filter="search">
 						<i class="layui-icon layui-icon-search"></i>
 					</button>
 				</form>
 			</div>
-		<%--</div>--%>
+		</div>
 
-		<table class="layui-hide" id="datas"></table>
+		<table class="layui-hide" id="datas"  lay-filter="cumtable"></table>
 
 		<script type="text/html" id="toolbarDemo">
 			<div class="layui-btn-container">
-				<button class="layui-btn layui-btn-danger" onclick="delAll()">
+				<button class="layui-btn layui-btn-danger layui-btn-sm"  onclick="delAlls('datas','/customer/delAll')">
 					<i class="layui-icon layui-icon-delete"></i>批量删除
 				</button>
-				<button class="layui-btn" onclick="WeAdminShow('添加用户','./add.jsp',600,400)">
+				<button class="layui-btn  layui-btn-sm"  onclick="Add('添加用户','./add-customer.jsp',600,400)">
 					<i class="layui-icon layui-icon-add-circle-fine"></i>添加
 				</button>
 			</div>
 		</script>
 
-		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-		</script>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteCum">删除</a>
+        </script>
 
-		<!--<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
 
@@ -75,7 +73,7 @@
 		<script>
             layui.use('table', function(){
                 var table = layui.table;
-
+                form = layui.form;
                 //展示已知数据
                 table.render({
                     elem: '#datas'
@@ -108,52 +106,184 @@
                         ,{field: 'remark', title: '备注'}
                         ,{field: 'right', title: '操作', width:120,toolbar: '#barDemo',fixed: 'right'}
                     ]]
-                    //,skin: 'line' //表格风格
                     ,even: true
                     ,page: true
-                    //,limits: [5, 7, 10]
-                    //,limit: 5 //每页默认显示的数量
                 });
-                //头工具栏事件
-                table.on('toolbar(datas)', function(obj){
-                    var checkStatus = table.checkStatus(obj.config.id);
-                    switch(obj.event){
-                        case 'getCheckData':
-                            var data = checkStatus.data;
-                            layer.alert(JSON.stringify(data));
-                            break;
-                        case 'getCheckLength':
-                            var data = checkStatus.data;
-                            layer.msg('选中了：'+ data.length + ' 个');
-                            break;
-                        case 'isAll':
-                            layer.msg(checkStatus.isAll ? '全选': '未全选');
-                            break;
-                    };
+
+
+                //监听提交搜索表单
+                form.on('submit(search)', function(obj){
+                    table.reload('datas', {
+                        url: '/customer/searchcum',
+                        where: obj.field
+                    })
+                    return false;
                 });
 
                 //监听行工具事件
-                table.on('tool(datas)', function(obj){
+                table.on('tool(cumtable)', function(obj){
                     var data = obj.data;
-                    //console.log(obj)
-                    if(obj.event === 'del'){
-                        layer.confirm('真的删除行么', function(index){
-                            obj.del();
+                    console.log(obj)
+                    if(obj.event === 'deleteCum'){
+                        layer.confirm('确认删除客户资料吗？', function(index){
                             layer.close(index);
+                            //向服务器发送删除指令，获取后端
+                            $.ajax({
+                                url:"/customer/"+data.id,
+                                method:'post',
+                                data:{_method: "PUT",'id':data.id},
+                                success:function (data) {
+                                    if (data === '1') {
+                                        obj.del();
+                                        layer.msg('已删除!', {
+                                            icon: 1,
+                                            time: 1000
+                                        });
+                                    }else {
+                                        layer.msg('删除失败!', {
+                                            icon: 2,
+                                            time: 1000
+                                        });
+                                    }
+                                }
+                            })
                         });
                     } else if(obj.event === 'edit'){
-                        layer.prompt({
-                            formType: 2
-                            ,value: data.email
-                        }, function(value, index){
-                            obj.update({
-                                email: value
-                            });
-                            layer.close(index);
-                        });
+                        Edit("编辑", "./edit-customer.jsp", data)
                     }
                 });
             });
+
+            /**
+			 * 修改客户信息
+			 */
+            window.Edit = function (title, url, data, w, h) {
+                var table = layui.table;
+                if (title == null || title === '') {
+                    title = false;
+                }
+                if (url == null || url === '') {
+                    url = "401.jsp";
+                }
+                if (w == null || w === '') {
+                    w = ($(window).width() * 0.9);
+                }
+                if (h == null || h === '') {
+                    h = ($(window).height() - 50);
+                }
+                layer.open({
+                    type: 2,
+                    area: [w + 'px', h + 'px'],
+                    fix: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    shade: 0.4,
+                    title: title,
+                    content: url,
+                    success: function (layero, index) {
+                        let body = layer.getChildFrame('body', index);
+                        console.log("1111"+body);
+                        body.contents().find("#id").val(data.id);
+                        body.contents().find("#name").val(data.name);
+                        body.contents().find("input:radio[value='" + data.sex + "']").attr('checked', 'true');
+                        body.contents().find("#company").val(data.company);
+                        body.contents().find("#department").val(data.department);
+                        body.contents().find("#position").val(data.position);
+                        body.contents().find("#birthday").val(data.birthday);
+                        body.contents().find("#tel").val(data.tel);
+                        body.contents().find("#email").val(data.email);
+                        body.contents().find("#qq").val(data.email);
+                        body.contents().find("#mob").val(data.mob);
+                        body.contents().find("#address").val(data.address);
+                        body.contents().find("#remark").val(data.remark);
+                    },
+                    error: function (layero, index) {
+                        alert("出现错误");
+                    },
+                    end: function () {
+                        table.reload('datas', { //表格的id
+                            url: '/customer/all'
+                        });
+                    }
+                });
+            };
+            /**
+             * 添加客户
+             * @param title
+             * @param url
+             * @param w
+             * @param h
+             */
+            window.Add = function(title, url, w, h) {
+                var table = layui.table;
+                if(title == null || title == '') {
+                    title = false;
+                };
+                if(url == null || url == '') {
+                    url = "401.jsp";
+                };
+                if(w == null || w == '') {
+                    w = ($(window).width() * 0.9);
+                };
+                if(h == null || h == '') {
+                    h = ($(window).height() - 50);
+                };
+                layer.open({
+                    type: 2,
+                    area: [w + 'px', h + 'px'],
+                    fix: false, //不固定
+                    maxmin: true,
+                    shadeClose: true,
+                    shade: 0.4,
+                    title: title,
+                    content: url,
+                    end:function () {
+                        table.reload('datas',{
+                            url:'/customer/all'
+                        });
+                    }
+                });
+            }
+
+            /**
+             * 批量删除
+             */
+            window.delAlls = function (tablename,url) {
+                var table = layui.table;
+                let data = tableCheck.getData();
+                let checkStatus=table.checkStatus(tablename);
+                let ids=[];
+
+                $(checkStatus.data).each(function (i, o) {
+                    ids.push(o.id);
+                });
+                console.log(ids.length);
+                if (ids.length < 1) {
+                    layer.msg('请选择要删除的信息', {
+                        icon: 3
+                    });
+                }else{
+                    layer.confirm('确认要删除吗？', function() {
+                        $.post(url,{_method: "PUT",'ids':ids.toString()},function (data) {
+                            //pu捉到所有被选中的，发异步进行删除
+                            if (data === '1') {
+
+                                layer.msg('删除成功!', {
+                                    icon: 1,
+                                    time: 1000
+                                });
+                                table.reload(tablename, {});
+                            }else {
+                                layer.msg('删除失败!', {
+                                    icon: 2,
+                                    time: 1000
+                                });
+                            }
+                        })
+                    });
+                }
+            }
+
 		</script>
 	</body>
 </html>

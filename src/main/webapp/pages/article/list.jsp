@@ -67,7 +67,7 @@
 				<button class="layui-btn" data-type="Recommend"><i class="layui-icon">&#xe6c6;</i>推荐</button>
 				<button class="layui-btn" data-type="Top"><i class="layui-icon">&#xe619;</i>置顶</button>
 				<button class="layui-btn" data-type="Review"><i class="layui-icon">&#xe6b2;</i>审核</button>
-				<button class="layui-btn" onclick="WeAdminShow('添加用户','./add.jsp',600,400)"><i class="layui-icon">&#xe61f;</i>添加</button>
+				<button class="layui-btn" onclick="WeAdminShow('添加用户','./add-customer.jsp',600,400)"><i class="layui-icon">&#xe61f;</i>添加</button>
 				<span class="fr" style="line-height:40px">共有数据：88 条</span>
 			</div>
 			<table class="layui-hide" id="articleList"></table>

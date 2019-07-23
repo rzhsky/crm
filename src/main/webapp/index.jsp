@@ -13,7 +13,9 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="static/css/font.css">
     <link rel="stylesheet" href="static/css/weadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+
 
 </head>
 
@@ -30,14 +32,26 @@
     </div>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">Admin</a>
+
+            <table>
+                <tr>
+                    <td>
+                        <img src="imgs/default.jpg" width="40px" height="40px" style="border-radius: 50%" >
+                    </td>
+                    <td>
+                        <a href="javascript:;">${employee.empname}</a>
+                    </td>
+                </tr>
+            </table>
+
+
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="WeAdminShow('个人信息','http://www.baidu.com')">个人信息</a>
+                    <a onclick="AdminShow('个人信息','./pages/admin/adminmessage.jsp')" a href="javascript:;">个人信息</a>
                 </dd>
                 <dd>
-                    <a onclick="WeAdminShow('切换帐号','./login.jsp')">切换帐号</a>
+                    <a onclick="AdminShow1('切换帐号','./login.jsp')" a href="javascript:;">切换帐号</a>
                 </dd>
                 <dd>
                     <a class="loginout" href="login.jsp">退出</a>
@@ -66,12 +80,12 @@
                             <cite>客户列表</cite>
                         </a>
                     </li>
-                    <li>
+                   <%-- <li>
                         <a _href="./pages/customer/list.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>客户跟进</cite>
                         </a>
-                    </li>
+                    </li>--%>
                 </ul>
             </li>
             <li>
@@ -220,6 +234,35 @@
             }
         });
     });
+
+    window.AdminShow = function (title, url, w, h) {
+        if (title == null || title == '') {
+            title = false;
+        }
+        ;
+        if (url == null || url == '') {
+            url = "401.jsp";
+        }
+        ;
+        if (w == null || w == '') {
+            w = ($(window).width() * 0.9);
+        }
+        ;
+        if (h == null || h == '') {
+            h = ($(window).height() - 50);
+        }
+        ;
+        layer.open({
+            type: 2,
+            area: [w + 'px', h + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: title,
+            content: url
+        });
+    }
 
 </script>
 </body>

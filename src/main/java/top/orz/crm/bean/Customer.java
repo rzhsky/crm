@@ -20,7 +20,19 @@ public class Customer {
     private Integer idelete;
     private String deletetime;
 
-    public Customer() {
+    public Customer(String name, Integer sex, String company, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark) {
+        this.name = name;
+        this.sex = sex;
+        this.company = company;
+        this.department = department;
+        this.position = position;
+        this.birthday = birthday;
+        this.tel = tel;
+        this.email = email;
+        this.qq = qq;
+        this.mob = mob;
+        this.address = address;
+        this.remark = remark;
     }
 
     public Customer(Integer id, String name, Integer sex, String company, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark, Integer idelete, String deletetime) {
@@ -39,6 +51,9 @@ public class Customer {
         this.remark = remark;
         this.idelete = idelete;
         this.deletetime = deletetime;
+    }
+
+    public Customer() {
     }
 
     public Integer getId() {

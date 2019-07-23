@@ -15,6 +15,17 @@
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/pages/**"/>
+            <mvc:mapping path="/index"/>
+            <mvc:exclude-mapping path="/login"/>
+            <bean class="top.orz.crm.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

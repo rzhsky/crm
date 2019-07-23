@@ -61,7 +61,7 @@ layui.use(['table', 'jquery','form', 'admin'], function() {
 	$(function(){
 		form.render();
 	});
-	
+
 	var active = {
 		getCheckData: function() { //获取选中数据
 			var checkStatus = table.checkStatus('articleList'),
@@ -109,12 +109,12 @@ layui.use(['table', 'jquery','form', 'admin'], function() {
 
 	};
 
-	$('.demoTable .layui-btn').on('click', function() {
+	/*$('.demoTable .layui-btn').on('click', function() {
 		var type = $(this).data('type');
 		active[type] ? active[type].call(this) : '';
 	});
-
-	/*用户-删除*/
+*/
+	/*/!*用户-删除*!/
 	window.member_del = function(obj, id) {
 		layer.confirm('确认要删除吗？', function(index) {
 			//发异步删除数据
@@ -124,17 +124,6 @@ layui.use(['table', 'jquery','form', 'admin'], function() {
 				time: 1000
 			});
 		});
-	}
+	}*/
 
 });
-
-function delAll(argument) {
-	var data = tableCheck.getData();
-	layer.confirm('确认要删除吗？' + data, function(index) {
-		//捉到所有被选中的，发异步进行删除
-		layer.msg('删除成功', {
-			icon: 1
-		});
-		$(".layui-form-checked").not('.header').parents('tr').remove();
-	});
-}

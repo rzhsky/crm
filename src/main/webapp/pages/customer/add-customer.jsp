@@ -20,7 +20,7 @@
 		                <span class="we-red">*</span>公司
 		            </label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_company" name="username" lay-verify="required|company" autocomplete="off" class="layui-input">
+						<input type="text" id="L_company" name="company" lay-verify="required|company" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -34,8 +34,8 @@
 				<div class="layui-form-item">
 				    <label for="L_sex" class="layui-form-label">性别</label>
 				    <div class="layui-input-block" id="L_sex">
-				      <input type="radio" name="sex" value="男" title="男" checked>
-				      <input type="radio" name="sex" value="女" title="女">
+				      <input type="radio" name="sex" value="0" title="男" checked>
+				      <input type="radio" name="sex" value="1" title="女">
 				    </div>
 				</div>
 				<div class="layui-form-item">
@@ -153,26 +153,31 @@
 
 				//监听提交
 				form.on('submit(add)', function(data) {
-					//console.log(data.field);
-					//var f = data.field;
-					//console.log(f.username);
-					//console.log(f.sex);				
+					console.log(data.field);
+					var f = data.field;
+					console.log(f.name);
+					console.log(f.sex);
 					//var sex = $('input:radio[name="sex"]:checked').val();
 
 					$.ajax({
 						url:'/customer/add',
 						method:'post',
-						contentType:'application/json; charset=utf-8',
 						dataType:'json',
 						data:data.field,
 						success:function (data) {
 							console.log(data)
 							if(data==1){
-
+							    layer.alert("添加成功",{icon:6},function () {
+                                    let index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                })
+							}else {
+                                layer.alert("添加失败",{icon:6},function () {
+                                    let index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+								})
 							}
                         }
-
-
 					})
 					return false;
 				});
