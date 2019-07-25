@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+    <title>资料修改页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"

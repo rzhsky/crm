@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,7 +13,9 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="static/css/font.css">
     <link rel="stylesheet" href="static/css/weadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="lib/layui/layui.js" charset="utf-8"></script>
+
 
 </head>
 
@@ -28,42 +30,33 @@
         <i title="展开左侧栏" class="layui-icon layui-icon-shrink-right"></i>
 
     </div>
-    <ul class="layui-nav left fast-add" lay-filter="">
-        <li class="layui-nav-item">
-            <a href="javascript:;">+新增</a>
-            <dl class="layui-nav-child">
-                <!-- 二级菜单 -->
-                <dd>
-                    <a onclick="WeAdminShow('资讯','https://www.baidu.com/')"><i class="layui-icon layui-icon-list"></i>资讯</a>
-                </dd>
-                <dd>
-                    <a onclick="WeAdminShow('图片','http://www.baidu.com')"><i
-                            class="layui-icon layui-icon-picture-fine"></i>图片</a>
-                </dd>
-                <dd>
-                    <a onclick="WeAdminShow('用户','https://www.baidu.com/')"><i class="layui-icon layui-icon-user"></i>用户</a>
-                </dd>
-            </dl>
-        </li>
-    </ul>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">Admin</a>
+
+            <table>
+                <tr>
+                    <td>
+                        <img id="touxiang" src="upload/${employee.img}" width="40px" height="40px" style="border-radius: 50%" >
+                    </td>
+                    <td>
+                        <a href="javascript:;">${employee.empname}</a>
+                    </td>
+                </tr>
+            </table>
+
+
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="WeAdminShow('个人信息','http://www.baidu.com')">个人信息</a>
+                    <a onclick="AdminShow('个人信息','./pages/admin/edit-admin.jsp')" a href="javascript:;">个人信息</a>
                 </dd>
                 <dd>
-                    <a onclick="WeAdminShow('切换帐号','./login.jsp')">切换帐号</a>
+                    <a onclick="EditPassword('修改密码','./pages/admin/edit-password.jsp')" a href="javascript:;">修改密码</a>
                 </dd>
                 <dd>
-                    <a class="loginout" href="login.jsp">退出</a>
+                    <a class="loginout" id="loginout" onclick="loginout()" a href="javascript:;">退出</a>
                 </dd>
             </dl>
-        </li>
-        <li class="layui-nav-item to-index">
-            <a href="/">前台首页</a>
         </li>
     </ul>
 
@@ -82,46 +75,17 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/member/list.jsp">
+                        <a _href="./pages/customer/customerlist.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>客户管理</cite>
-
+                            <cite>客户列表</cite>
                         </a>
                     </li>
-                    <li>
-                        <a _href="./pages/member/del.jsp">
+                   <%-- <li>
+                        <a _href="./pages/customer/list.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>客户管理</cite>
-
+                            <cite>客户跟进</cite>
                         </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="./pages/member/addInput.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>输入框操作</cite>
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="./pages/404.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>三级菜单演示</cite>
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="./pages/404.jsp">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>导航菜单演示</cite>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    </li>--%>
                 </ul>
             </li>
             <li>
@@ -268,7 +232,7 @@
 <!-- 中部结束 -->
 <!-- 底部开始 -->
 <div class="footer">
-    <div class="copyright">Copyright ©2018 WeAdmin v1.0 All Rights Reserved</div>
+    <div class="copyright">Copyright ©2019 crm v1.0 All Rights Reserved</div>
 </div>
 <!-- 底部结束 -->
 <script type="text/javascript">
@@ -302,6 +266,81 @@
         });
     });
 
+    window.loginout=function(){
+        $.get("/admin/loginout",function (data) {
+            window.location.href="login.jsp";
+        })
+
+    }
+/**
+ * 修改个人资料
+ */
+    window.AdminShow = function (title, url, w, h) {
+        if (title == null || title == '') {
+            title = false;
+        }
+        ;
+        if (url == null || url == '') {
+            url = "401.jsp";
+        }
+        ;
+        if (w == null || w == '') {
+            w = ($(window).width() * 0.5);
+        }
+        ;
+        if (h == null || h == '') {
+            h = ($(window).height() - 50);
+        }
+        ;
+        layer.open({
+            type: 2,
+            area: [w + 'px', h + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: title,
+            content: url
+        });
+    }
+
+
+    /**
+     * 修改密码
+     * @param title
+     * @param url
+     * @param w
+     * @param h
+     * @constructor
+     */
+    window.EditPassword = function (title, url, w, h) {
+        if (title == null || title == '') {
+            title = false;
+        }
+        ;
+        if (url == null || url == '') {
+            url = "401.jsp";
+        }
+        ;
+        if (w == null || w == '') {
+            w = ($(window).width() * 0.3);
+        }
+        ;
+        if (h == null || h == '') {
+            h = ($(window).height() - 350);
+        }
+        ;
+        layer.open({
+            type: 2,
+            area: [w + 'px', h + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: title,
+            content: url
+        });
+    }
 </script>
 </body>
 <!--Tab菜单右键弹出菜单-->

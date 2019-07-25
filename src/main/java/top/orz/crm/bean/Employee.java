@@ -16,23 +16,37 @@ public class Employee {
     private String deletetime;
     private Integer deptid;
     private Integer pid;
-
+    private String password;
     private Department department;
     private Position position;
 
     public Employee() {
     }
 
-    public Employee(String empname, Integer sex, String phone, String addr, String email, Integer deptid, Integer pid) {
+    public Employee(Integer id, String empname, Integer sex, String phone, String addr, String email, String img, Integer idelete, String deletetime, Integer deptid, Integer pid, String password, Department department, Position position) {
+        this.id = id;
         this.empname = empname;
         this.sex = sex;
         this.phone = phone;
         this.addr = addr;
         this.email = email;
+        this.img = img;
+        this.idelete = idelete;
+        this.deletetime = deletetime;
         this.deptid = deptid;
         this.pid = pid;
+        this.password = password;
+        this.department = department;
+        this.position = position;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -160,6 +174,9 @@ public class Employee {
                 ", deletetime='" + deletetime + '\'' +
                 ", deptid=" + deptid +
                 ", pid=" + pid +
+                ", password='" + password + '\'' +
+                ", department=" + department +
+                ", position=" + position +
                 '}';
     }
 }

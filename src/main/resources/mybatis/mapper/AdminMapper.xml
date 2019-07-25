@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.AdminMapper">
+    <select id="login" resultType="top.orz.crm.bean.Employee">
+        select * from employee where empname=#{empname} and password=#{password}
+    </select>
+
+    <select id="lemp" resultType="top.orz.crm.bean.Employee">
+        select * from employee where id=#{id}
+    </select>
+
+    <update id="upnullEmp">
+        update employee
+              set empname=#{empname},sex=#{sex},phone=#{phone},addr=#{addr},
+            email=#{email},deptid=#{deptid},pid=#{pid}
+        where id=#{id}
+    </update>
+
+    <update id="upEmp">
+        update employee
+              set empname=#{empname},sex=#{sex},phone=#{phone},addr=#{addr},
+            email=#{email},img=#{img},deptid=#{deptid},pid=#{pid}
+        where id=#{id}
+    </update>
+
+    <update id="updatepassword">
+        update employee
+        set password=#{password}
+        where id=#{id}
+    </update>
+</mapper>

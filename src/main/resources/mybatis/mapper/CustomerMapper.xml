@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.CustomerMapper">
+    <!--查找所有客户列表-->
+    <select id="selectAllCus" resultType="top.orz.crm.bean.Customer">
+        select * from customer where idelete=0
+    </select>
+
+    <!--统计所有客户的数量-->
+    <select id="cusCount" resultType="Integer">
+        select count(*) from customer
+    </select>
+
+    <!--增加客户信息-->
+    <insert id="addCustomer">
+		insert into customer(name,sex,company,department,position,birthday,tel,email,qq,mob,address,remark)
+		values (#{name},#{sex},#{company},#{department},#{position},#{birthday},#{tel},#{email},#{qq},#{mob},#{address},#{remark})
+    </insert>
+
+    <!--删除客户信息-->
+    <update id="deleteCum">
+        update customer set idelete=1,deletetime=#{1} where id=#{0}
+    </update>
+
+    <resultMap id="cumMap" type="top.orz.crm.bean.Customer">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="sex" column="sex"/>
+    <result property="company" column="company"/>
+    <result property="department" column="department"/>
+    <result property="position" column="position"/>
+    <result property="birthday" column="birthday"/>
+    <result property="tel" column="tel"/>
+    <result property="qq" column="qq"/>
+    <result property="mob" column="mob"/>
+    <result property="address" column="address"/>
+    <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!--条件搜索-->
+    <select id="searchCum" resultMap="cumMap">
+        select * from customer 
+        <where>
+            idelete=0
+            <if test="customer.name!=null and customer.name.trim()!= ''">
+                and name like '%${customer.name}%'
+            </if>
+            <if test="customer.company!=null and customer.company.trim()!= ''">
+                and company like '%${customer.company}%'
+            </if>
+        </where>
+        limit #{start},#{limit}
+    </select>
+
+    <!--搜索数量-->
+    <select id="searchCount" resultType="Integer">
+        select count(*) from customer
+        <where>
+            idelete=0
+            <if test="name!=null and name.trim()!= ''">
+                and name like '%${name}%'
+            </if>
+            <if test="company!=null and company.trim()!= ''">
+                and company like '%${company}%'
+            </if>
+        </where>
+    </select>
+
+    <!--更新数据-->
+    <update id="updateCum">
+        update customer
+        set name=#{name},sex=#{sex},company=#{company},department=#{department},position=#{position},position=#{position},tel=#{tel},email=#{email},qq=#{qq},mob=#{mob},address=#{address},remark=#{remark}
+        where id=#{id}
+    </update>
+
+</mapper>
