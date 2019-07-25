@@ -49,14 +49,14 @@
 		d.id deptid, d.deptname, p.id pid, p.positionname
 		from employee e, department d, position p
 		where e.idelete=0
-		and e.deptid=d.id and e.pid=p.id and e.id!=0
+		and e.deptid=d.id and e.pid=p.id and e.id!=1
 		order by e.id asc
 		limit #{0}, #{1}
 	</select>
 
     <!--Integer getEmpCount();-->
     <select id="getEmpCount" resultType="Integer">
-        select count(*) from employee where idelete=0 and id!=0
+        select count(*) from employee where idelete=0 and id!=1
     </select>
 
     <!--void deleteEmp(Integer id, String deleteTime);-->
@@ -158,20 +158,20 @@
 
     <!--void updateDeptByEmpId(Integer id);-->
     <update id="updateDeptByEmpId">
-        update department set empid = 0 where empid=#{id};
+        update department set empid = 1 where empid=#{id};
     </update>
 
     <!--void updateDeptByEmpId(Integer id);-->
     <update id="updateDeptIdByEmpId">
         update department d, employee e
-        set e.deptid = 0
+        set e.deptid = 1
         where d.idelete = 1 and d.id = e.deptid and e.id = #{id};
     </update>
 
     <!--void updatePositionIdByEmpId(Integer id);-->
     <update id="updatePositionIdByEmpId">
         update position p, employee e
-        set e.pid = 0
+        set e.pid = 1
         where p.idelete = 1 and p.id = e.pid and e.id = #{id};
     </update>
 </mapper>

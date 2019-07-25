@@ -26,16 +26,16 @@
         select d.id, d.deptdesc, d.deptname, p.id parentid, p.deptname parentname,
         e.id eid, e.empname, e.addr, e.phone
         from employee e, department d, department p
-        where d.idelete=0 and p.idelete=0 and e.idelete=0
-        and d.parentid = p.id and  d.empid=e.id
+        where d.idelete=0
+        and d.parentid = p.id and  d.empid=e.id and d.id!=0
         limit #{0}, #{1}
     </select>
 
     <!--Integer getDepartmentCount();-->
     <select id="getDepartmentCount" resultType="Integer">
         select count(*) from department d, employee e, department p
-        where d.idelete=0 and p.idelete=0 and e.idelete=0
-        and d.parentid = p.id and  d.empid=e.id and d.id!=0
+        where d.idelete=0
+        and d.parentid = p.id and  d.empid=e.id and d.id!=1
     </select>
 
     <!--void delDepartment(Integer id, String createTime);-->
@@ -66,7 +66,7 @@
         select d.id, d.deptdesc, d.deptname, d.deletetime, p.id parentid, p.deptname parentname,
         e.id eid, e.empname, e.addr, e.phone
         from employee e, department d, department p
-        where d.idelete=1 and p.idelete=0 and e.idelete=0
+        where d.idelete=1
         and d.parentid = p.id and  d.empid=e.id
         limit #{0}, #{1}
     </select>
@@ -74,8 +74,8 @@
     <!--Integer getDelDepartmentCount();-->
     <select id="getDelDepartmentCount" resultType="Integer">
         select count(*) from department d, employee e, department p
-        where d.idelete=1 and p.idelete=0 and e.idelete=0
-        and d.parentid = p.id and  d.empid=e.id
+        where d.idelete=1
+        and d.parentid = p.id and d.empid=e.id
     </select>
 
     <!--void restoreDepartment(@Param("id") Integer id, @Param("empid") Integer empid);-->
@@ -85,7 +85,7 @@
 
     <!--void completeDelDepartment(Integer id);-->
     <delete id="completeDelDepartment">
-        delete from department d where id=#{id} and id!=0
+        delete from department d where id=#{id} and id!=1
     </delete>
 
     <!--Integer getEmpCountByDeptId(Integer id);-->
