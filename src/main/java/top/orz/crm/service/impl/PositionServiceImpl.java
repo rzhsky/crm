@@ -34,8 +34,16 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public void deletePosition(Integer id) {
-        positionMapper.deletePosition(id, sdf.format(new Date()));
+    @Transactional
+    public boolean deletePosition(Integer id) {
+        Integer count = positionMapper.selectEmpCountByPositionId(id);
+
+        if (count == 0) {
+            positionMapper.deletePosition(id, sdf.format(new Date()));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -48,8 +56,14 @@ public class PositionServiceImpl implements PositionService {
     public void batchDeletePosition(String ids) {
         String[] split = ids.split(",");
 
+        Integer count = 0;
         for (String s : split) {
-            positionMapper.deletePosition(Integer.valueOf(s), sdf.format(new Date()));
+            Integer i = deletePosition(Integer.valueOf(s)) ? 1 : 0;
+            count += i;
+        }
+
+        if (count != split.length){
+            throw new RuntimeException("删除失败");
         }
     }
 
@@ -73,7 +87,7 @@ public class PositionServiceImpl implements PositionService {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            positionMapper.restorePosition(Integer.valueOf(s));
+            restorePosition(Integer.valueOf(s));
         }
     }
 
@@ -82,12 +96,20 @@ public class PositionServiceImpl implements PositionService {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            positionMapper.completeDelPosition(Integer.valueOf(s));
+            completeDelPosition(Integer.valueOf(s));
         }
     }
 
     @Override
     public void restorePosition(Integer id) {
         positionMapper.restorePosition(id);
+    }
+
+    @Override
+    @Transactional
+    public void addPositions(List<Position> positions) {
+        for (Position position : positions) {
+            positionMapper.addPosition(position);
+        }
     }
 }

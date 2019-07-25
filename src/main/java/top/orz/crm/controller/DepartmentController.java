@@ -56,9 +56,15 @@ public class DepartmentController {
 
     @PutMapping("/department/{id}")
     public String delDepartment(@PathVariable Integer id) {
+        Integer n = departmentService.delDepartment(id);
         try {
-            departmentService.delDepartment(id);
-            return "1";
+            if (n == -1)
+                return  "2";
+            else if(n == 0){
+                return "3";
+            }else {
+                return "1";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return "0";

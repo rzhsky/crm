@@ -73,8 +73,6 @@ public class EmployeeController {
 
     @PutMapping(value = "/emp/{id}")
     public String deleteEmp(@PathVariable Integer id) {
-
-        System.out.println(id);
         try {
             employeeService.deleteEmp(id);
             return "1";

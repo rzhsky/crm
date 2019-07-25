@@ -76,6 +76,7 @@
                 {field: 'positionname', title: '职务名称', sort: true},
                 {field: 'level', title: '职务级别', templet: '#sex'},
                 {field: 'createtime', title: '创建时间'},
+                {field: 'deletetime', title: '删除时间', sort: true},
                 {field: 'operator', title: '操作', templet: '#operateTpl', fixed: 'right'},
             ]]
         });

@@ -176,7 +176,7 @@
     <a title="编辑" href="javascript:;" lay-event="edit">
         <i class="layui-icon">&#xe642;</i>
     </a>
-    <a title="删除" onclick="del(this, '/department', 'dept', '/department')" href="javascript:;">
+    <a title="删除" onclick="del(this, '/department', 'dept', '/department', '该部门拥有员工，不能删除！', '该部门拥有子部门，不能删除！')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
     </a>
 </script>

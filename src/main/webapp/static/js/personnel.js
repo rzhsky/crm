@@ -124,7 +124,7 @@ layui.use(['layer', 'jquery', 'table'], function () {
         }
     };
 
-    window.del = function (obj, url, table_name, link) {
+    window.del = function (obj, url, table_name, link, msg1, msg2) {
         layer.confirm('确认要删除吗？', function (index) {
             //发异步删除数据
             let id = $(obj).parents("tr").children(":eq(1)").text();
@@ -142,7 +142,17 @@ layui.use(['layer', 'jquery', 'table'], function () {
                             icon: 1,
                             time: 1000
                         });
-                    } else {
+                    } else if (data === '2') {
+                        layer.msg(msg1, {
+                            icon: 2,
+                            time: 1000
+                        });
+                    }else if (data === '3') {
+                        layer.msg(msg2, {
+                            icon: 2,
+                            time: 1000
+                        });
+                    }else {
                         layer.msg('删除失败!', {
                             icon: 2,
                             time: 1000
@@ -198,6 +208,7 @@ layui.use(['layer', 'jquery', 'table'], function () {
                         table.reload(table_name, {
                             url: link
                         });
+                        // window.parent.location.reload();
                         layer.msg('已恢复!', {
                             icon: 1,
                             time: 1000

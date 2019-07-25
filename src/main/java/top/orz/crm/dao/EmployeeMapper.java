@@ -28,6 +28,8 @@ public interface EmployeeMapper {
 
     List<Employee> searchEmp(@Param("employee") Employee employee, @Param("start") Integer start, @Param("limit") Integer limit);
 
+    List<Employee> searchEmpByPinyin(@Param("employee") Employee employee, @Param("start") Integer start, @Param("limit") Integer limit);
+
     Integer searchEmpCount(Employee employee);
 
     List<Employee> getEmployees();
@@ -39,4 +41,10 @@ public interface EmployeeMapper {
     void restoreEmp(Integer id);
 
     void completeDelEmp(Integer id);
+
+    void updateDeptByEmpId(Integer id);
+
+    void updateDeptIdByEmpId(Integer id);
+
+    void updatePositionIdByEmpId(Integer id);
 }

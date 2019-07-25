@@ -1,13 +1,16 @@
 package top.orz.crm.service.impl;
-import	java.text.SimpleDateFormat;
+
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.orz.crm.bean.Department;
 import top.orz.crm.bean.Employee;
 import top.orz.crm.bean.Position;
 import top.orz.crm.dao.EmployeeMapper;
 import top.orz.crm.service.EmployeeService;
+import top.orz.crm.util.StringUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -46,8 +49,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public void deleteEmp(Integer id) {
+        employeeMapper.updateDeptByEmpId(id);
         employeeMapper.deleteEmp(id, sdf.format(new Date()));
+    }
+
+    @Override
+    @Transactional
+    public void batchDeleteEmp(String ids) {
+        String[] split = ids.split(",");
+
+        for (String s : split) {
+            deleteEmp(Integer.valueOf(s));
+        }
     }
 
     @Override
@@ -57,7 +72,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> searchEmp(Employee employee, Integer page, Integer limit) {
-        return employeeMapper.searchEmp(employee, limit * (page - 1), limit);
+        if (StringUtil.isChinese(employee.getEmpname()))
+            return employeeMapper.searchEmp(employee, limit * (page - 1), limit);
+        else{
+            String name = StringUtil.getLimit(employee.getEmpname(), "%");
+            employee.setEmpname(name);
+            return employeeMapper.searchEmpByPinyin(employee, limit * (page - 1), limit);
+        }
     }
 
     @Override
@@ -81,7 +102,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public void restoreEmp(Integer id) {
+        employeeMapper.updateDeptIdByEmpId(id);
+        employeeMapper.updatePositionIdByEmpId(id);
         employeeMapper.restoreEmp(id);
     }
 
@@ -91,20 +115,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void batchDeleteEmp(String ids) {
-        String[] split = ids.split(",");
-
-        for (String s : split) {
-            employeeMapper.deleteEmp(Integer.valueOf(s), sdf.format(new Date()));
-        }
-    }
-
-    @Override
+    @Transactional
     public void batchRestoreEmp(String ids) {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            employeeMapper.restoreEmp(Integer.valueOf(s));
+            restoreEmp(Integer.valueOf(s));
         }
     }
 
@@ -113,7 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            employeeMapper.completeDelEmp(Integer.valueOf(s));
+            completeDelEmp(Integer.valueOf(s));
         }
     }
 }

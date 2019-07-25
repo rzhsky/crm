@@ -6,6 +6,7 @@
         <id property="id" column="id"/>
         <result property="deptname" column="deptname"/>
         <result property="deptdesc" column="deptdesc"/>
+        <result property="deletetime" column="deletetime"/>
 
         <association property="parent" javaType="top.orz.crm.bean.Department">
             <id property="id" column="parentid"/>
@@ -34,12 +35,17 @@
     <select id="getDepartmentCount" resultType="Integer">
         select count(*) from department d, employee e, department p
         where d.idelete=0 and p.idelete=0 and e.idelete=0
-        and d.parentid = p.id and  d.empid=e.id
+        and d.parentid = p.id and  d.empid=e.id and d.id!=0
     </select>
 
     <!--void delDepartment(Integer id, String createTime);-->
     <update id="delDepartment">
-        update department set idelete = 1, deletetime=#{1} where id=#{0};
+            update department d, (select d.* from department d
+            where not exists(
+                select p.id from  department p
+                where p.parentid=d.id
+            )) p set d.idelete = 1, d.deletetime=#{1}
+            where d.id=p.id and d.id=#{0}
     </update>
 
     <!--void addDepartment(Department department);-->
@@ -72,14 +78,19 @@
         and d.parentid = p.id and  d.empid=e.id
     </select>
 
-    <!--void restoreDepartment(Integer id);-->
+    <!--void restoreDepartment(@Param("id") Integer id, @Param("empid") Integer empid);-->
     <update id="restoreDepartment">
         update department set idelete = 0 where id=#{id};
     </update>
 
     <!--void completeDelDepartment(Integer id);-->
     <delete id="completeDelDepartment">
-        delete from department where id=#{id}
+        delete from department d where id=#{id} and id!=0
     </delete>
 
+    <!--Integer getEmpCountByDeptId(Integer id);-->
+    <select id="getEmpCountByDeptId" resultType="Integer">
+        select count(*) from employee e, department d
+        where e.idelete=0 and e.deptid=d.id and d.id=#{id};
+    </select>
 </mapper>

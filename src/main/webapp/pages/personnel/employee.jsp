@@ -163,7 +163,7 @@
     var fn = function(item){
     var str = '';
 
-    if(item === 1) str = '男';
+    if(item === 0) str = '男';
     else str = '女';
     return str;
     };

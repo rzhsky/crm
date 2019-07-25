@@ -1,5 +1,6 @@
 package top.orz.crm.service.impl;
-import	java.text.SimpleDateFormat;
+
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void delDepartment(Integer id) {
-        departmentMapper.delDepartment(id, sdf.format(new Date()));
+    @Transactional
+    public Integer delDepartment(Integer id) {
+        Integer count = departmentMapper.getEmpCountByDeptId(id);
+
+        if (count == 0) {
+            return departmentMapper.delDepartment(id, sdf.format(new Date()));
+        } else {
+            return -1;
+        }
     }
 
     @Override
@@ -38,8 +46,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void batchDeleteDepartment(String ids) {
         String[] split = ids.split(",");
 
+        Integer n = 0;
         for (String s : split) {
-            departmentMapper.delDepartment(Integer.valueOf(s), sdf.format(new Date()));
+            Integer i = delDepartment(Integer.valueOf(s));
+            n += i;
+        }
+
+        if (n != split.length){
+            throw new RuntimeException("删除失败");
         }
     }
 
@@ -78,7 +92,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            departmentMapper.restoreDepartment(Integer.valueOf(s));
+            restoreDepartment(Integer.valueOf(s));
         }
     }
 
@@ -87,7 +101,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         String[] split = ids.split(",");
 
         for (String s : split) {
-            departmentMapper.completeDelDepartment(Integer.valueOf(s));
+            completeDelDepartment(Integer.valueOf(s));
         }
     }
 }

@@ -48,14 +48,15 @@
 		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
 		d.id deptid, d.deptname, p.id pid, p.positionname
 		from employee e, department d, position p
-		where e.idelete=0 and d.idelete=0 and p.idelete=0 and e.deptid=d.id and e.pid=p.id
+		where e.idelete=0
+		and e.deptid=d.id and e.pid=p.id and e.id!=0
 		order by e.id asc
 		limit #{0}, #{1}
 	</select>
 
     <!--Integer getEmpCount();-->
     <select id="getEmpCount" resultType="Integer">
-        select count(*) from employee where idelete=0
+        select count(*) from employee where idelete=0 and id!=0
     </select>
 
     <!--void deleteEmp(Integer id, String deleteTime);-->
@@ -73,10 +74,10 @@
 
     <!--List<Employee> searchEmp(Employee employee, Integer start, Integer limit);-->
     <select id="searchEmp" resultMap="empMap">
-		select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
-		d.id deptid, d.deptname, p.id pid, p.positionname
-		from employee e, department d, position p
-		<where>
+        select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
+        d.id deptid, d.deptname, p.id pid, p.positionname
+        from employee e, department d, position p
+        <where>
             e.idelete=0 and e.deptid=d.id and e.pid=p.id
             <if test="employee.empname!=null and employee.empname.trim() != ''">
                 and e.empname like '%${employee.empname}%'
@@ -85,8 +86,27 @@
                 and e.phone like '%${employee.phone}%'
             </if>
         </where>
-		limit #{start}, #{limit}
-	</select>
+        limit #{start}, #{limit}
+    </select>
+
+    <!--List<Employee> searchEmpByPinyin(Employee employee, Integer start, Integer limit);-->
+    <!--select empname from employee where to_pinyin(empname) like '%zh%n%'-->
+    <select id="searchEmpByPinyin" resultMap="empMap">
+        select e.id, e.empname, e.sex, e.phone, e.addr, e.email,
+        d.id deptid, d.deptname, p.id pid, p.positionname
+        from employee e, department d, position p
+        <where>
+            e.idelete=0 and e.deptid=d.id and e.pid=p.id
+            <if test="employee.empname!=null and employee.empname.trim() != ''">
+                and upper(to_pinyin(e.empname)) like #{employee.empname}
+            </if>
+            <if test="employee.phone!=null and employee.phone.trim() != ''">
+                and e.phone like '%${employee.phone}%'
+            </if>
+        </where>
+        limit #{start}, #{limit}
+    </select>
+
 
     <!--Integer searchEmpCount(Employee employee);-->
     <select id="searchEmpCount" resultType="Integer">
@@ -116,7 +136,7 @@
 		select e.id, e.empname, e.sex, e.phone, e.addr, e.email, e.deletetime,
 		d.id deptid, d.deptname, p.id pid, p.positionname
 		from employee e, department d, position p
-		where e.idelete=1 and d.idelete=0 and p.idelete=0 and e.deptid=d.id and e.pid=p.id
+		where e.idelete=1 and e.deptid=d.id and e.pid=p.id
 		order by e.id asc
 		limit #{0}, #{1}
 	</select>
@@ -135,4 +155,23 @@
     <delete id="completeDelEmp">
         delete from employee where id=#{id}
     </delete>
+
+    <!--void updateDeptByEmpId(Integer id);-->
+    <update id="updateDeptByEmpId">
+        update department set empid = 0 where empid=#{id};
+    </update>
+
+    <!--void updateDeptByEmpId(Integer id);-->
+    <update id="updateDeptIdByEmpId">
+        update department d, employee e
+        set e.deptid = 0
+        where d.idelete = 1 and d.id = e.deptid and e.id = #{id};
+    </update>
+
+    <!--void updatePositionIdByEmpId(Integer id);-->
+    <update id="updatePositionIdByEmpId">
+        update position p, employee e
+        set e.pid = 0
+        where p.idelete = 1 and p.id = e.pid and e.id = #{id};
+    </update>
 </mapper>

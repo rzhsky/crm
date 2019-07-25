@@ -4,12 +4,12 @@
 <mapper namespace="top.orz.crm.dao.PositionMapper">
     <!--List<Position> selectPositions(@Param("start") Integer start, @Param("limit") Integer limit, @Param("isdel") Integer isdel);-->
     <select id="selectPositions" resultType="top.orz.crm.bean.Position">
-        select * from position where idelete=#{isdel} limit #{start}, #{limit}
+        select * from position where id!=0 and idelete=#{isdel} limit #{start}, #{limit}
     </select>
 
     <!--Integer getPositionCount(Integer isdel);-->
     <select id="getPositionCount" resultType="Integer">
-        select count(*) from position where idelete=#{isdel}
+        select count(*) from position where idelete=#{isdel} and id!=0
     </select>
 
     <!--void addPosition(Position position);-->
@@ -39,4 +39,10 @@
     <update id="restorePosition">
         update position set idelete=0 where id=#{id};
     </update>
+
+    <!--Integer selectEmpCountByPositionId(Integer id);-->
+    <select id="selectEmpCountByPositionId" resultType="Integer">
+        select count(*) from position p, employee e
+        where e.idelete=0 and e.pid=p.id and p.id=#{id}
+    </select>
 </mapper>

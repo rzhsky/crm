@@ -1,13 +1,16 @@
 package top.orz.crm.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import top.orz.crm.bean.Employee;
 import top.orz.crm.bean.Position;
 import top.orz.crm.service.PositionService;
+import top.orz.crm.util.ExcelUtil;
 
 import java.util.List;
 
@@ -46,8 +49,7 @@ public class PositionController {
     @PutMapping("/position/{id}")
     public String deletePosition(@PathVariable Integer id) {
         try {
-            positionService.deletePosition(id);
-            return "1";
+            return positionService.deletePosition(id) ? "1" : "2";
         } catch (Exception e) {
             e.printStackTrace();
             return "0";
@@ -131,6 +133,34 @@ public class PositionController {
         } catch (Exception e) {
             return "0";
         }
+    }
+
+    @RequestMapping(value = "/position/upload", headers = "content-type=multipart/*")
+    public Map<String, Object> upload(@RequestParam("file") MultipartFile file) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("code", 0);
+        map.put("msg", "");
+        try {
+            List<Position> positions = ExcelUtil.readExcel(file.getInputStream());
+
+            if (positions == null || positions.size() == 0){
+                map.put("data", "添加失败");
+            }else {
+                for (Position position : positions) {
+                    System.out.println(position);
+                }
+                positionService.addPositions(positions);
+                map.put("data", "添加成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("data", "添加失败");
+
+        }
+        System.out.println(file.getOriginalFilename());
+
+        return map;
     }
 
 }

@@ -138,8 +138,7 @@
                 success: function (data) {
                     console.log(data);
                     if (data === 1) {
-                        console.log("增加成功");
-                        layer.alert("增加成功", {icon: 6}, function () {
+                        layer.alert("增加成功", {icon: 1}, function () {
                             // 获得frame索引
                             let index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
@@ -150,7 +149,7 @@
                             parent.layer.close(index);
                         });
                     } else {
-                        layer.alert("增加失败", {icon: 6}, function () {
+                        layer.alert("增加失败", {icon: 2}, function () {
                             // 获得frame索引
                             let index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame

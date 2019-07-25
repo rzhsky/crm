@@ -11,7 +11,7 @@ public interface PositionService {
 
     void addPosition(Position position);
 
-    void deletePosition(Integer id);
+    boolean deletePosition(Integer id);
 
     void updatePosition(Position position);
 
@@ -28,4 +28,6 @@ public interface PositionService {
     void batchCompleteDelPosition(String ids);
 
     void restorePosition(Integer id);
+
+    void addPositions(List<Position> positions);
 }

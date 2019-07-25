@@ -9,7 +9,7 @@ public interface DepartmentService {
 
     Integer getDepartmentCount();
 
-    void delDepartment(Integer id);
+    Integer delDepartment(Integer id);
 
     void batchDeleteDepartment(String ids);
 

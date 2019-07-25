@@ -11,7 +11,7 @@ public interface DepartmentMapper {
 
     Integer getDepartmentCount();
 
-    void delDepartment(Integer id, String createTime);
+    Integer delDepartment(Integer id, String createTime);
 
     void addDepartment(Department department);
 
@@ -25,4 +25,5 @@ public interface DepartmentMapper {
 
     void completeDelDepartment(Integer id);
 
+    Integer getEmpCountByDeptId(Integer id);
 }

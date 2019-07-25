@@ -22,5 +22,5 @@ public interface PositionMapper {
 
     void restorePosition(Integer id);
 
-    void updateEmpByPositionId(Integer id);
+    Integer selectEmpCountByPositionId(Integer id);
 }

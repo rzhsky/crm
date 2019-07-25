@@ -130,8 +130,12 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-danger" onclick="delChoose('position', '/position/batchdel')"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="Add('添加职务','./add-position.jsp')"><i class="layui-icon"></i>添加
+        <button class="layui-btn layui-btn-danger" onclick="delChoose('position', '/position/batchdel')"><i
+                class="layui-icon"></i>批量删除
+        </button>
+        <button class="layui-btn" onclick="Add('添加职务','./add-position.jsp')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn layui-btn-info" onclick="WeAdminShow('文件上传', 'upload.jsp', 683, 455)"><i
+                class="layui-icon"></i>Excel数据添加
         </button>
     </div>
 </script>
@@ -141,7 +145,7 @@
     <a title="编辑" href="javascript:;" lay-event="edit">
         <i class="layui-icon">&#xe642;</i>
     </a>
-    <a title="删除" onclick="del(this, '/position', 'position', '/position')" href="javascript:;">
+    <a title="删除" onclick="del(this, '/position', 'position', '/position', '该职位下有员工，不能删除！')" href="javascript:;">
         <i class="layui-icon">&#xe640;</i>
     </a>
 </script>
