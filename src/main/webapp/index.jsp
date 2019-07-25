@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -36,7 +36,7 @@
             <table>
                 <tr>
                     <td>
-                        <img src="imgs/default.jpg" width="40px" height="40px" style="border-radius: 50%" >
+                        <img id="touxiang" src="upload/${employee.img}" width="40px" height="40px" style="border-radius: 50%" >
                     </td>
                     <td>
                         <a href="javascript:;">${employee.empname}</a>
@@ -48,13 +48,13 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="AdminShow('个人信息','./pages/admin/adminmessage.jsp')" a href="javascript:;">个人信息</a>
+                    <a onclick="AdminShow('个人信息','./pages/admin/edit-admin.jsp')" a href="javascript:;">个人信息</a>
                 </dd>
                 <dd>
-                    <a onclick="AdminShow1('切换帐号','./login.jsp')" a href="javascript:;">切换帐号</a>
+                    <a onclick="EditPassword('修改密码','./pages/admin/edit-password.jsp')" a href="javascript:;">修改密码</a>
                 </dd>
                 <dd>
-                    <a class="loginout" href="login.jsp">退出</a>
+                    <a class="loginout" id="loginout" onclick="loginout()" a href="javascript:;">退出</a>
                 </dd>
             </dl>
         </li>
@@ -235,6 +235,15 @@
         });
     });
 
+    window.loginout=function(){
+        $.get("/admin/loginout",function (data) {
+            window.location.href="login.jsp";
+        })
+
+    }
+/**
+ * 修改个人资料
+ */
     window.AdminShow = function (title, url, w, h) {
         if (title == null || title == '') {
             title = false;
@@ -245,7 +254,7 @@
         }
         ;
         if (w == null || w == '') {
-            w = ($(window).width() * 0.9);
+            w = ($(window).width() * 0.5);
         }
         ;
         if (h == null || h == '') {
@@ -264,6 +273,43 @@
         });
     }
 
+
+    /**
+     * 修改密码
+     * @param title
+     * @param url
+     * @param w
+     * @param h
+     * @constructor
+     */
+    window.EditPassword = function (title, url, w, h) {
+        if (title == null || title == '') {
+            title = false;
+        }
+        ;
+        if (url == null || url == '') {
+            url = "401.jsp";
+        }
+        ;
+        if (w == null || w == '') {
+            w = ($(window).width() * 0.3);
+        }
+        ;
+        if (h == null || h == '') {
+            h = ($(window).height() - 350);
+        }
+        ;
+        layer.open({
+            type: 2,
+            area: [w + 'px', h + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: title,
+            content: url
+        });
+    }
 </script>
 </body>
 <!--Tab菜单右键弹出菜单-->

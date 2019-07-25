@@ -1,3 +1,5 @@
+<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -20,23 +22,23 @@
 
 <body>
 <div class="weadmin-body">
-    <form class="layui-form">
+    <form class="layui-form"  lay-filter="adminmsg">
         <input type="hidden" id="position">
         <input type="hidden" id="dept">
 
         <div class="layui-form-item">
             <div class="layui-input-inline">
                 <input type="hidden" id="id" name="id" required=""
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" value="${employee.id}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="empname" class="layui-form-label">
+            <label for="empname" class="layui-form-label" >
                 <span class="we-red">*</span>员工姓名
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="empname" name="empname" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="empname" name="empname" required=""
+                       autocomplete="off" class="layui-input" value="${employee.empname}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -44,8 +46,8 @@
                 <span class="we-red">*</span>性别
             </label>
             <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男" checked>
-                <input type="radio" name="sex" value="0" title="女">
+                <input type="radio" name="sex" value="1"  <c:if test="${employee.sex==0}">checked="checked"</c:if> title="男"/>
+                <input type="radio" name="sex" value="0" <c:if test="${employee.sex==1}">checked="checked"</c:if> title="女"/>
             </div>
         </div>
 
@@ -55,7 +57,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="tel" id="phone" name="phone" required="" lay-verify="phone"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" value="${employee.phone}">
             </div>
         </div>
 
@@ -65,7 +67,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="addr" name="addr" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" value="${employee.addr}">
             </div>
         </div>
 
@@ -75,7 +77,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="email" name="email" required="" lay-verify="email"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" value="${employee.email}">
             </div>
         </div>
 
@@ -101,6 +103,27 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label">修改头像</label>
+            <div class="layui-input-inline uploadHeadImage">
+                <div class="layui-upload-drag" id="headImg">
+                    <img class="layui-upload-img headImage" src="/upload/def.jpeg" id="demo1" style="width: 220px" height="200px">
+                    <p id="demoText"></p>
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传图片，或将图片拖拽到此处</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <input type="hidden" id="img" name="img" required=""
+                       autocomplete="off" class="layui-input" >
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="pid" class="layui-form-label">
+            </label>
             <button class="layui-btn" lay-filter="update" lay-submit="">修改</button>
         </div>
     </form>
@@ -116,7 +139,6 @@
             layer = layui.layer,
             $ = layui.jquery,
             table = layui.table;
-
 
         $.get("/dept/all", function (data) {
             for (let i = 0; i < data.length; i++) {
@@ -141,9 +163,11 @@
         //监听提交
         form.on('submit(update)', function (data) {
             console.log(data);
-
+            let imgname=data.field.img;
+            console.log("图片路径"+imgname)
+            $=layui.jquery;
             $.ajax({
-                url: "/emp",
+                url: "/admin/update",
                 method: "put",
                 data: JSON.stringify(data.field),
                 dataType: "json",
@@ -155,11 +179,8 @@
                         layer.alert("修改成功", {icon: 6}, function () {
                             // 获得frame索引
                             let index = parent.layer.getFrameIndex(window.name);
-
-                            parent.layui.table.reload('emp', {
-                                url: '/emp/all'
-                            });
                             //关闭当前frame
+                            parent.location.reload();
                             parent.layer.close(index);
                         });
                     } else {
@@ -178,6 +199,49 @@
 
     });
 </script>
+
+<script type="text/javascript">
+    layui.use(["jquery", "upload", "form", "layer", "element"], function () {
+        var $ = layui.$,
+            element = layui.element,
+            layer = layui.layer,
+            upload = layui.upload,
+            form = layui.form;
+        //拖拽上传
+        var uploadInst = upload.render({
+            elem: '#headImg'
+            , url: '/upload/headImg'
+            , size: 500
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                //打印后台传回的地址: 把地址放入一个隐藏的input中, 和表单一起提交到后台.
+                $("#img").val(res.data.src);
+               /* window.parent.uploadHeadImage(res.data.src);
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #8f8f8f;">上传成功!!!</span>');*/
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        element.init();
+    });
+</script>
+
 </body>
 
 </html>

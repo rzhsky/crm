@@ -22,4 +22,31 @@ public class AdminServiceImpl implements AdminService {
         System.out.println("ssss"+adminMapper.login(employee));
         return adminMapper.login(employee);
     }
+
+    /**
+     * 更新资料
+     * @param employee
+     * @return
+     */
+    @Override
+    public Employee updateEmp(Employee employee) {
+        //System.out.println("ser"+employee.getImg());
+        if (employee.getImg()==null||employee.getImg().equals("")){
+            adminMapper.upnullEmp(employee);
+            return adminMapper.lemp(employee);
+        }else {
+            adminMapper.upEmp(employee);
+            return adminMapper.lemp(employee);
+        }
+
+    }
+
+    /**
+     * 修改密码
+     * @param employee
+     */
+    @Override
+    public void updatepassword(Employee employee) {
+        adminMapper.updatepassword(employee);
+    }
 }

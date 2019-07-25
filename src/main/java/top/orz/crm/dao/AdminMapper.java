@@ -11,4 +11,12 @@ import java.util.Map;
 public interface AdminMapper {
 
     Employee login(Employee employee);
+
+   void upnullEmp(Employee employee);
+
+   void upEmp(Employee employee);
+
+   Employee lemp(Employee employee);
+
+   void updatepassword(Employee employee);
 }

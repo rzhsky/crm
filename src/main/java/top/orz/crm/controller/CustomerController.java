@@ -36,7 +36,7 @@ public class CustomerController {
 
 
     /**
-     * 添加员工信息
+     * 添加客户信息
      */
     @RequestMapping(value="/customer/add")
     public String addCustomer(Customer customer){
