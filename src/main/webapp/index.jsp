@@ -96,15 +96,15 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/article/list.jsp">
+                        <a _href="./pages/contract/contract.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>文章列表</cite>
+                            <cite>合同管理</cite>
                         </a>
                     </li>
                     <li>
-                        <a _href="./pages/article/category.jsp">
+                        <a _href="./pages/order/order.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>分类管理</cite>
+                            <cite>订单管理</cite>
                         </a>
                     </li>
                 </ul>
@@ -117,15 +117,9 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="./pages/article/list.jsp">
+                        <a _href="./pages/record/record.jsp">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>文章列表</cite>
-                        </a>
-                    </li>
-                    <li>
-                        <a _href="./pages/article/category.jsp">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>分类管理</cite>
+                            <cite>财务清单</cite>
                         </a>
                     </li>
                 </ul>

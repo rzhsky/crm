@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.orz.crm.dao.ContractMapper">
+    <insert id="addContract">
+        insert into contract(name,createdate,content,cid,amount,empid,remark)
+        values (#{name},#{createdate},#{content},#{cid},#{amount},#{empid},#{remark})
+    </insert>
+
+    <select id="selectConAll" resultMap="contractMap">
+        select con.id,con.name conname,con.createdate,con.content,con.cid,con.empid,con.amount,con.remark,
+        cus.id cusid,cus.name cusname,
+        emp.id empid,emp.empname
+        from contract con,customer cus,employee emp
+        where con.cid = cus.id and con.empid = emp.id
+        order by con.id
+        limit #{0},#{1}
+    </select>
+    <resultMap id="contractMap" type="top.orz.crm.bean.Contract">
+        <id property="id" column="id"></id>
+        <result property="name" column="conname"></result>
+        <result property="createdate" column="createdate"></result>
+        <result property="content" column="content"></result>
+        <result property="amount" column="amount"></result>
+        <result property="remark" column="remark"></result>
+
+        <association property="customer" javaType="top.orz.crm.bean.Customer">
+            <id property="id" column="id"></id>
+            <result property="name" column="cusname"></result>
+        </association>
+
+        <association property="employee" javaType="top.orz.crm.bean.Employee">
+            <id property="id" column="id"></id>
+            <result property="empname" column="empname"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectEmpAll" resultType="top.orz.crm.bean.Employee">
+        select * from employee
+    </select>
+
+    <select id="selectCusAll" resultType="top.orz.crm.bean.Customer">
+        select * from customer
+    </select>
+
+    <select id="ConCount" resultType="Integer">
+        select count(*) from contract
+    </select>
+
+    <delete id="deleteContract" parameterType="Integer">
+        delete from contract where id = #{id}
+    </delete>
+
+    <delete id="deleteContractAll">
+        delete from contract where id in
+        <foreach item="id" collection="list" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateContract">
+        update contract
+        set name = #{name},createdate = #{createdate},content=#{content},cid =#{cid},
+        amount = #{amount},empid = #{empid},remark = #{remark}
+        where id = #{id}d
+    </update>
+
+    <select id="searchContract" resultMap="contractMap">
+        select con.id,con.name conname,con.createdate,con.content,con.cid,con.empid,con.amount,con.remark,
+        cus.id cusid,cus.name cusname,
+        emp.id empid,emp.empname
+        from contract con,customer cus,employee emp
+        <where>
+            con.cid = cus.id and con.empid = emp.id
+            <if test="contract.name!=null and contract.name.trim()!=''">
+                and con.name = #{contract.name}
+            </if>
+            <if test="contract.customer.name!=null and contract.customer.name.trim()!=''">
+                and cus.name = #{contract.customer.name}
+            </if>
+            <if test="contract.employee.empname!=null and contract.employee.empname.trim()!=''">
+                and emp.empname = #{contract.employee.empname}
+            </if>
+            limit #{start}, #{limit}
+        </where>
+    </select>
+
+    <select id="searchConCount" resultType="Integer">
+        select count(*) from contract con,customer cus,employee emp
+        <where>
+            con.cid = cus.id and con.empid = emp.id
+            <if test="contract.name!=null and contract.name.trim()!=''">
+                and con.name = #{contract.name}
+            </if>
+            <if test="contract.customer.name!=null and contract.customer.name.trim()!=''">
+                and cus.name = #{contract.customer.name}
+            </if>
+            <if test="contract.employee.empname!=null and contract.employee.empname.trim()!=''">
+                and emp.empname = #{contract.employee.empname}
+            </if>
+        </where>
+    </select>
+</mapper>

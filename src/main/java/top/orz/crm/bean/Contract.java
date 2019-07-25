@@ -13,6 +13,9 @@ public class Contract {
     private Integer empid;
     private String remark;
 
+    private Customer customer;
+    private Employee employee;
+
     public Contract() {
     }
 
@@ -89,5 +92,35 @@ public class Contract {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdate='" + createdate + '\'' +
+                ", content='" + content + '\'' +
+                ", cid=" + cid +
+                ", amount=" + amount +
+                ", empid=" + empid +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }
