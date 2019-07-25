@@ -51,7 +51,7 @@ layui.use(['layer', 'jquery', 'table'], function () {
                         layer.msg('删除成功', {
                             icon: 1
                         });
-                        table.reload(table_name, {});
+                        table.reload(table_name, {page:1});
                     } else {
                         layer.msg('删除失败', {
                             icon: 2
@@ -113,7 +113,7 @@ layui.use(['layer', 'jquery', 'table'], function () {
                         layer.msg('删除成功', {
                             icon: 1
                         });
-                        table.reload(table_name, {});
+                        table.reload(table_name, {page:1});
                     } else {
                         layer.msg('删除失败', {
                             icon: 2

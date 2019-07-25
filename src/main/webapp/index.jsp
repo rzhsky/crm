@@ -126,21 +126,6 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>产品管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="./pages/order/list.jsp">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>订单列表</cite>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
                     <cite>人事管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
@@ -242,30 +227,13 @@
         base: './static/js/'
         , version: '101100'
     }).use('admin');
-    layui.use(['jquery', 'admin'], function () {
-        var $ = layui.jquery;
-        $(function () {
-            var login = JSON.parse(localStorage.getItem("login"));
-            if (login) {
-                if (login === 0) {
-                    window.location.href = 'login.jsp';
-                    return false;
-                } else {
-                    return false;
-                }
-            } else {
-                window.location.href = 'login.jsp';
-                return false;
-            }
-        });
-    });
 
     window.loginout=function(){
         $.get("/admin/loginout",function (data) {
             window.location.href="login.jsp";
         })
 
-    }
+    };
 /**
  * 修改个人资料
  */

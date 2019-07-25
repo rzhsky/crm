@@ -34,99 +34,178 @@
     <div class="layui-row">
         <form class="layui-form layui-col-md12 we-search layui-form-pane">
             <div class="layui-inline">
-                <input class="layui-input" placeholder="姓名" name="empname">
+                <input id="s_name" class="layui-input" placeholder="姓名" name="empname">
             </div>
 
             <div class="layui-inline">
-                <input class="layui-input" placeholder="电话" name="phone">
+                <input id="s_phone" class="layui-input" placeholder="电话" name="phone">
             </div>
-            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+            <button id="searchBtn" data-type="getInfo" class="layui-btn" lay-submit="" lay-filter="search"><i
+                    class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <div class="weadmin-block">
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="WeAdminShow('添加用户','./add-employee.jsp')"><i class="layui-icon"></i>添加
-        </button>
-        <span class="fr" style="line-height:40px">共有数据：88 条</span>
-    </div>
+
     <table id="emp" lay-filter="test"></table>
-    <%--<table class="layui-table">--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-            <%--<th>--%>
-                <%--<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i--%>
-                        <%--class="layui-icon">&#xe605;</i></div>--%>
-            <%--</th>--%>
-            <%--<th>姓名</th>--%>
-            <%--<th>性别</th>--%>
-            <%--<th>电话</th>--%>
-            <%--<th>地址</th>--%>
-            <%--<th>邮箱</th>--%>
-            <%--<th>部门</th>--%>
-            <%--<th>职位</th>--%>
-            <%--<th>操作</th>--%>
-        <%--</thead>--%>
-        <%--<tbody>--%>
-        <%--<tr>--%>
-            <%--<td>--%>
-                <%--<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>--%>
-                <%--</div>--%>
-            <%--</td>--%>
-            <%--<td>1</td>--%>
-            <%--<td>会员相关</td>--%>
-            <%--<td>会员相关</td>--%>
-            <%--<td>会员相关</td>--%>
-            <%--<td>会员相关</td>--%>
-            <%--<td>会员相关</td>--%>
-            <%--<td class="td-manage">--%>
-                <%--<a title="编辑" onclick="WeAdminShow('编辑','./edit.jsp')" href="javascript:;">--%>
-                    <%--<i class="layui-icon">&#xe642;</i>--%>
-                <%--</a>--%>
-                <%--<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">--%>
-                    <%--<i class="layui-icon">&#xe640;</i>--%>
-                <%--</a>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--</tbody>--%>
-    <%--</table>--%>
-    <%--<div class="page">--%>
-        <%--<div>--%>
-            <%--<a class="prev" href="">&lt;&lt;</a>--%>
-            <%--<a class="num" href="">1</a>--%>
-            <%--<span class="current">2</span>--%>
-            <%--<a class="num" href="">3</a>--%>
-            <%--<a class="num" href="">489</a>--%>
-            <%--<a class="next" href="">&gt;&gt;</a>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 </div>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/js/personnel.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
     layui.use('table', function () {
-        let table = layui.table;
+        let table = layui.table,
+            $ = layui.jquery,
+            form = layui.form;
 
         //第一个实例
         table.render({
             elem: '#emp',
-            height: 312,
+            height: 525,
+            toolbar: '#toolbarDemo',
             url: '/emp/all', //数据接口
+            cellMinWidth: 80,
             page: true,//开启分页
             cols: [[ //表头
-                // {field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left'},
-                {field: 'empname', title: '姓名', width: 80},
-                {field: 'sex', title: '性别', width: 80},
-                {field: 'phone', title: '电话', width: 80, sort: true},
-                {field: 'addr', title: '地址', width: 80},
-                {field: 'email', title: '邮箱', width: 177},
-                // {field: 'department.deptname', title: '部门', width: 80, sort: true},
-                // {field: 'position.positionname', title: '职位', width: 80, sort: true},
-                // {title: '操作', width: 80, content: '123' },
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'ID', sort: true},
+                {field: 'empname', title: '姓名', sort: true},
+                {field: 'sex', title: '性别', templet: '#sex'},
+                {field: 'phone', title: '电话'},
+                {field: 'addr', title: '地址'},
+                {field: 'email', title: '邮箱'},
+                {field: 'department', title: '部门', sort: true, templet: "#deptname"},
+                {field: 'position', title: '职位', sort: true, templet: "#positionname"},
+                {field: 'operator', title: '操作', templet: '#operateTpl', fixed: 'right'},
             ]]
         });
 
+        table.on('tool(test)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'edit') {
+                Edit("编辑", "./edit-employee.jsp", data)
+            }
+        });
+
+        form.on('submit(search)', function (obj) {
+            table.reload('emp', { //表格的id
+                url: '/emp/search',
+                where: obj.field
+        });
+            return false;
+        });
+
+        window.Edit = function (title, url, data, w, h) {
+            if (title == null || title === '') {
+                title = false;
+            }
+            if (url == null || url === '') {
+                url = "404.jsp";
+            }
+            if (w == null || w === '') {
+                w = ($(window).width() * 0.9);
+            }
+            if (h == null || h === '') {
+                h = ($(window).height() - 50);
+            }
+            layer.open({
+                type: 2,
+                area: [w + 'px', h + 'px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: title,
+                content: url,
+                success: function (layero, index) {
+                    //向iframe页的id=house的元素传值  //参考 https://yq.aliyun.com/ziliao/133150
+                    let body = layer.getChildFrame('body', index);
+                    body.contents().find("#id").val(data.id);
+                    body.contents().find("#dept").val(data.department.id);
+                    body.contents().find("#position").val(data.position.id);
+
+                    body.contents().find("#empname").val(data.empname);
+                    body.contents().find("input:radio[value='" + data.sex + "']").attr('checked', 'true');//$("input:radio[value='rd2']").attr('checked','true');
+                    body.contents().find("#phone").val(data.phone);
+                    body.contents().find("#addr").val(data.addr);
+                    body.contents().find("#email").val(data.email);
+                },
+                error: function (layero, index) {
+                    alert("出现错误");
+                }
+            });
+        };
+
     });
 </script>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-danger" onclick="delChoose('emp', '/emp/batchdel')"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="Add('添加员工','./add-employee.jsp')"><i
+                class="layui-icon"></i>添加
+        </button>
+    </div>
+</script>
+
+<script type="text/html" id="operateTpl">
+    <a title="编辑" href="javascript:;" lay-event="edit">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a title="删除" onclick="del(this, '/emp', 'emp', '/emp/all')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+    </a>
+</script>
+
+
+<script type="text/html" id="sex">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    if(item === 0) str = '男';
+    else str = '女';
+    return str;
+    };
+    }}
+    <div>{{ fn(d.sex) }}</div>
+</script>
+
+<script type="text/html" id="deptname">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    str = item.deptname;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.department) }}</div>
+</script>
+
+<script type="text/html" id="positionname">
+    {{#
+    var fn = function(item){
+    var str = '';
+
+    str = item.positionname;
+    return str;
+    };
+    }}
+    <div>{{ fn(d.position) }}</div>
+</script>
+
+<script type="text/html" id="operator">
+    {{#
+    var fn = function(){
+    var str = '';
+
+    return str;
+    };
+    }}
+    <div>{{ fn() }}</div>
+</script>
+
 </body>
 
 </html>

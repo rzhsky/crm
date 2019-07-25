@@ -60,11 +60,11 @@
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit" title="修改状态"
-       href="javascript:;">修改状态
+       href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="deleteOrder(this)" href="javascript:;">
-        删除<i class="layui-icon">&#xe640;</i>
+        <i class="layui-icon">&#xe640;</i>
     </a>
     <%--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>--%>
 </script>

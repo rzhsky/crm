@@ -23,6 +23,21 @@ public class Customer {
     public Customer() {
     }
 
+    public Customer(String name, Integer sex, String company, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark) {
+        this.name = name;
+        this.sex = sex;
+        this.company = company;
+        this.department = department;
+        this.position = position;
+        this.birthday = birthday;
+        this.tel = tel;
+        this.email = email;
+        this.qq = qq;
+        this.mob = mob;
+        this.address = address;
+        this.remark = remark;
+    }
+
     public Customer(Integer id, String name, Integer sex, String company, String department, String position, String birthday, String tel, String email, String qq, String mob, String address, String remark, Integer idelete, String deletetime) {
         this.id = id;
         this.name = name;
@@ -40,6 +55,7 @@ public class Customer {
         this.idelete = idelete;
         this.deletetime = deletetime;
     }
+
 
     public Integer getId() {
         return id;
@@ -65,11 +81,11 @@ public class Customer {
         this.sex = sex;
     }
 
-    public String getCompary() {
+    public String getCompany() {
         return company;
     }
 
-    public void setCompary(String company) {
+    public void setCompany(String company) {
         this.company = company;
     }
 

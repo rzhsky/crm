@@ -22,9 +22,9 @@
 <div class="weadmin-nav">
 			<span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">管理员管理</a>
+        <a href="">员工管理</a>
         <a>
-          <cite>角色管理</cite></a>
+          <cite>职务管理</cite></a>
       </span>
     <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新">
@@ -42,78 +42,112 @@
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
-    <div class="weadmin-block">
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="WeAdminShow('添加用户','./add-customer.jsp')"><i class="layui-icon"></i>添加</button>
-        <span class="fr" style="line-height:40px">共有数据：88 条</span>
-    </div>
-    <table class="layui-table">
-        <thead>
-        <tr>
-            <th>
-                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                        class="layui-icon">&#xe605;</i></div>
-            </th>
-            <th>名称</th>
-            <th>职务级别</th>
-            <th>创建时间</th>
-            <th>操作</th>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
-                </div>
-            </td>
-            <td>1</td>
-            <td>超级管理员</td>
-            <td class="td-status">
-                <span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span></td>
-            <td class="td-manage">
-                <a title="编辑" onclick="WeAdminShow('编辑','./position-update.jsp')" href="javascript:;">
-                    <i class="layui-icon">&#xe642;</i>
-                </a>
-                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                    <i class="layui-icon">&#xe640;</i>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="page">
-        <div>
-            <a class="prev" href="">&lt;&lt;</a>
-            <a class="num" href="">1</a>
-            <span class="current">2</span>
-            <a class="num" href="">3</a>
-            <a class="num" href="">489</a>
-            <a class="next" href="">&gt;&gt;</a>
-        </div>
-    </div>
+
+    <table id="position" lay-filter="test"></table>
 </div>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/js/personnel.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
     layui.extend({
         admin: '{/}../../static/js/admin'
     });
-    layui.use(['form', 'layer', 'admin', 'jquery'], function () {
-        var form = layui.form,
+    layui.use(['form', 'layer', 'admin', 'jquery', 'table'], function () {
+        let form = layui.form,
             admin = layui.admin,
-            layer = layui.layer;
-        $ = layui.jquery;
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.jquery;
         form.render();
 
-        $.get("/emp/all", function (data) {
-            for (let i = 0; i < data.length; i++) {
-                $("#deptid").append('<option value="' + data[i].id + '">' + data[i].deptname + '</option>');
-            }
-
-            form.render();
-            console.log(data);
+        //第一个实例
+        table.render({
+            elem: '#position',
+            height: 525,
+            toolbar: '#toolbarDemo',
+            url: '/position', //数据接口
+            cellMinWidth: 80,
+            page: true,//开启分页
+            cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'ID', sort: true},
+                {field: 'positionname', title: '职务名称', sort: true},
+                {field: 'level', title: '职务级别', templet: '#sex'},
+                {field: 'createtime', title: '创建时间'},
+                {field: 'operator', title: '操作', templet: '#operateTpl', fixed: 'right'},
+            ]]
         });
+
+        table.on('tool(test)', function (obj) {
+            let data = obj.data;
+            if (obj.event === 'edit') {
+                Edit("编辑", "./edit-position.jsp", data)
+            }
+        });
+
+        window.Edit = function (title, url, data, w, h) {
+            if (title == null || title === '') {
+                title = false;
+            }
+            if (url == null || url === '') {
+                url = "404.jsp";
+            }
+            if (w == null || w === '') {
+                w = ($(window).width() * 0.9);
+            }
+            if (h == null || h === '') {
+                h = ($(window).height() - 50);
+            }
+            layer.open({
+                type: 2,
+                area: [w + 'px', h + 'px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: title,
+                content: url,
+                success: function (layero, index) {
+                    //向iframe页的id=house的元素传值  //参考 https://yq.aliyun.com/ziliao/133150
+                    let body = layer.getChildFrame('body', index);
+                    body.contents().find("#id").val(data.id);
+                    body.contents().find("#positionname").val(data.positionname);
+                    body.contents().find("#level").val(data.level);
+
+                    body.contents().find("#createtime").val(data.createtime);
+
+                },
+                error: function (layero, index) {
+                    alert("出现错误");
+                }
+            });
+        };
+
+
     });
+</script>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-danger" onclick="delChoose('position', '/position/batchdel')"><i
+                class="layui-icon"></i>批量删除
+        </button>
+        <button class="layui-btn" onclick="Add('添加职务','./add-position.jsp')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn layui-btn-info" onclick="WeAdminShow('文件上传', 'upload.jsp', 683, 455)"><i
+                class="layui-icon"></i>Excel数据添加
+        </button>
+    </div>
+</script>
+
+<script type="text/html" id="operateTpl">
+    <%--onclick="Edit(this)"--%>
+    <a title="编辑" href="javascript:;" lay-event="edit">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a title="删除" onclick="del(this, '/position', 'position', '/position', '该职位下有员工，不能删除！')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+    </a>
 </script>
 </body>
 

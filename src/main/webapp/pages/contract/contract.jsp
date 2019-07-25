@@ -64,11 +64,11 @@
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit" title="编辑"
-       href="javascript:;">编辑
+       href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="deleteContract(this)" href="javascript:;">
-        删除<i class="layui-icon">&#xe640;</i>
+        <i class="layui-icon">&#xe640;</i>
     </a>
     <%--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>--%>
 </script>
@@ -100,7 +100,7 @@
                 , {field: 'amount', title: '合同金额'}
                 , {field: 'employee', title: '签约人姓名', templet: "#empname"}
                 , {field: 'remark', title: '备注'}
-                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
+                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo',fixed: 'right'}
             ]]
             , even: true
             , page: true

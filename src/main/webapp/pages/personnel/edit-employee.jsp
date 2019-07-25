@@ -44,8 +44,8 @@
                 <span class="we-red">*</span>性别
             </label>
             <div class="layui-input-inline">
-                <input type="radio" name="sex" value="1" title="男" checked>
-                <input type="radio" name="sex" value="0" title="女">
+                <input type="radio" name="sex" value="0" title="男" checked>
+                <input type="radio" name="sex" value="1" title="女">
             </div>
         </div>
 
@@ -123,9 +123,8 @@
                 $("#deptid").append('<option value="' + data[i].id + '">' + data[i].deptname + '</option>');
             }
 
-            // $("#deptid").val($("#dept").val());
+            $("#deptid").val($("#dept").val());
             form.render();
-            console.log(data);
         });
 
         $.get("/position/all", function (data) {
@@ -135,7 +134,6 @@
 
             $("#pid").val($("#position").val());
             form.render();
-            console.log(data);
         });
 
         //监听提交

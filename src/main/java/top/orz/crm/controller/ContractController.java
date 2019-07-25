@@ -74,13 +74,13 @@ public class ContractController {
         }
     }
 
-    @RequestMapping(value = "/employee/all")
+    @RequestMapping(value = "/contract/employee/all")
     public List<Employee> getEmpALl(){
         return contractService.selectEmpAll();
     }
 
 
-    @RequestMapping(value = "/customer/all")
+    @RequestMapping(value = "/contract/customer/all")
     public List<Customer> getCusALl(){
         return contractService.selectCusAll();
     }

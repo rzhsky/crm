@@ -23,17 +23,17 @@
 					<!--统计信息展示-->
 					<fieldset class="layui-elem-field" style="padding: 5px;">
 						<!--公告-->
-						<div class="layui-card" style="height: 300px">
+						<div class="layui-card">
 							<div class="layui-card-header layui-elem-quote" >公告</div>
 
-							<div class="layui-card-body" style="height: 300px;">
+							<div class="layui-card-body" >
 								<div class="layui-carousel weadmin-notice" lay-filter="notice" lay-indicator="inside" lay-arrow="none" style="width: 100%">
 									<div carousel-item="" >
 										<div class="" >
 											<a href="javascript:;" target="_blank" class="layui-bg-red" >2019年7月25日 客户信息更新</a>
 										</div>
 										<div class="" >
-											<a href="javascript:;" target="_blank" class="layui-bg-blue" >
+											<a href="javascript:;" target="_blank" class="layui-bg-blue">
 												今日考勤情况：</br>
 												张三迟到</br>
 												王小花迟到</br>
@@ -43,14 +43,6 @@
 											<a href="javascript:;" target="_blank" class="layui-bg-green">客户提醒事项</a>
 										</div>
 									</div>
-									<%--<div class="layui-carousel-ind" style="height: 300px;">
-										<ul>
-											<li class="layui-this"></li>
-											<li></li>
-										</ul>
-									</div>--%>
-									<!--<button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
-									<button class="layui-icon layui-carousel-arrow" lay-type="add"></button>-->
 								</div>
 
 							</div>
@@ -72,19 +64,19 @@
 				carousel = layui.carousel,
 				util = layui.util,
 				admin = layui.admin;
-			//建造实例
+			/*//建造实例
 			carousel.render({
 				elem: '.weadmin-shortcut'
 				,width: '100%' //设置容器宽度
 				,arrow: 'none' //始终显示箭头	
 				,trigger: 'hover'
 				,autoplay:false
-			});
+			});*/
 			
 			carousel.render({
 				elem: '.weadmin-notice'
 				,width: '100%' //设置容器宽度
-				,height:'500px'
+				,height:'100%'
 				,arrow: 'none' //始终显示箭头	
 				,trigger: 'hover'
 				,autoplay:true

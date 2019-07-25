@@ -51,10 +51,10 @@
         <button class="layui-btn layui-btn-danger" onclick="deleteAll()">
             <i class="layui-icon layui-icon-delete"></i>批量删除
         </button>
-        <button class="layui-btn layui-btn-danger" onclick="WeAdminShow('按月份统计','listByTime.jsp',800,600)">
+        <button class="layui-btn layui-btn-danger" onclick="WeAdminShow('按月份统计','listByTime.jsp',600,400)">
            按月统计
         </button>
-        <button class="layui-btn layui-btn-danger" onclick="WeAdminShow('按支付方式统计','listByPayway.jsp',800,600)">
+        <button class="layui-btn layui-btn-danger" onclick="WeAdminShow('按支付方式统计','listByPayway.jsp',600,400)">
             支付方式统计
         </button>
     </div>
@@ -62,11 +62,11 @@
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit" title="编辑"
-       href="javascript:;">编辑
+       href="javascript:;">
         <i class="layui-icon">&#xe642;</i>
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="deleteOrder(this)" href="javascript:;">
-        删除<i class="layui-icon">&#xe640;</i>
+        <i class="layui-icon">&#xe640;</i>
     </a>
 </script>
 
@@ -96,7 +96,7 @@
                 , {field: 'orders', title: '订单编号', totalRow: true, templet: "#ordernumber"}
                 , {field: 'customer', title: '交款人姓名', templet: "#customername"}
                 , {field: 'employee', title: '受理人姓名', templet: "#empname"}
-                , {fixed: 'right', title: '操作', align: 'center', toolbar: '#barDemo'}
+                , {title: '操作', align: 'center', toolbar: '#barDemo'}
             ]]
             , even: true
             , page: true

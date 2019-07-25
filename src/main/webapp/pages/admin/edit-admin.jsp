@@ -106,7 +106,7 @@
             <label class="layui-form-label">修改头像</label>
             <div class="layui-input-inline uploadHeadImage">
                 <div class="layui-upload-drag" id="headImg">
-                    <img class="layui-upload-img headImage" src="/upload/def.jpeg" id="demo1" style="width: 220px" height="200px">
+                    <img class="layui-upload-img headImage" src="/upload/default.jpg" id="demo1" style="width: 220px" height="200px">
                     <p id="demoText"></p>
                     <i class="layui-icon">&#xe67c;</i>
                     <p>点击上传图片，或将图片拖拽到此处</p>

@@ -62,7 +62,7 @@
         update contract
         set name = #{name},createdate = #{createdate},content=#{content},cid =#{cid},
         amount = #{amount},empid = #{empid},remark = #{remark}
-        where id = #{id}d
+        where id = #{id}
     </update>
 
     <select id="searchContract" resultMap="contractMap">

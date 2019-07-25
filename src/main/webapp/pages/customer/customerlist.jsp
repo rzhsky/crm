@@ -29,7 +29,7 @@
 			</a>
 		</div>
 
-		<div class="weadmin-body">
+		<%--<div class="weadmin-body">--%>
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search layui-form-pane">
 					客户搜索：
@@ -45,7 +45,7 @@
 					</button>
 				</form>
 			</div>
-		</div>
+		<%--</div>--%>
 
 		<table class="layui-hide" id="datas"  lay-filter="cumtable"></table>
 

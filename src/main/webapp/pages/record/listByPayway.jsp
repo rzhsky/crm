@@ -14,7 +14,7 @@
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 600px;height:400px;"></div>
+<div id="main" style="width: 600px;height:300px;"></div>
 <script type="text/javascript">
     //使用ajax加载数据
     $.ajax({

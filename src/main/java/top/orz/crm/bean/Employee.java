@@ -11,12 +11,11 @@ public class Employee {
     private String phone;
     private String addr;
     private String email;
-    private String img = "/default.jpg";
+    private String img = "default.jpg";
     private Integer idelete;
     private String deletetime;
     private Integer deptid;
     private Integer pid;
-    private String password;
     private Department department;
     private Position position;
 
@@ -38,14 +37,6 @@ public class Employee {
         this.password = password;
         this.department = department;
         this.position = position;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Integer getId() {

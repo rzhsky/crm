@@ -99,9 +99,6 @@ public class AdminController {
     public String updateEmp(@RequestBody Employee employee,HttpSession session) {
         System.out.println("修改的员工信息" + employee);
         try {
-            String password=MD5.EncoderByMd5(employee.getPassword());
-            //System.out.println(password);
-            employee.setPassword(password);
             Employee em=adminService.updateEmp(employee);
             session.setAttribute("employee",em);
             return "1";
@@ -116,7 +113,9 @@ public class AdminController {
     @PutMapping(value = "/admin/updatepassword")
     public  String updatepassword(@RequestBody Employee employee){
         try{
-
+            String password=MD5.EncoderByMd5(employee.getPassword());
+            //System.out.println(password);
+            employee.setPassword(password);
             adminService.updatepassword(employee);
             return "1";
         }catch (Exception e){

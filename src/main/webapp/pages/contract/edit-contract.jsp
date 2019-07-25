@@ -112,7 +112,7 @@
             layer = layui.layer,
             $ = layui.jquery;
 
-        $.post("/employee/all",function (data) {
+        $.post("/contract/employee/all",function (data) {
             for (var i = 0; i < data.length; i++) {
                 $("#empid").append('<option value = " '+data[i].id+' ">'+data[i].empname+'</option>');
             }
@@ -122,7 +122,7 @@
 
         })
 
-        $.post("/customer/all",function (data) {
+        $.post("/contract/customer/all",function (data) {
             for (var i = 0; i < data.length; i++) {
                 $("#cid").append('<option value=" '+data[i].id+'">'+data[i].department+'-'+data[i].name+'</option>');
             }
