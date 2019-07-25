@@ -9,8 +9,18 @@ public class Orders {
     private Integer coid;
     private Double ordermoney;
     private Integer state;
-    private String okdata;
-    private String reminddata;
+    private String okdate;
+    private String reminddate;
+
+    private Contract contract;
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
 
     public Orders() {
     }
@@ -21,8 +31,8 @@ public class Orders {
         this.coid = coid;
         this.ordermoney = ordermoney;
         this.state = state;
-        this.okdata = okdata;
-        this.reminddata = reminddata;
+        this.okdate = okdate;
+        this.reminddate = reminddate;
     }
 
     public Integer getId() {
@@ -66,19 +76,19 @@ public class Orders {
     }
 
     public String getOkdata() {
-        return okdata;
+        return okdate;
     }
 
     public void setOkdata(String okdata) {
-        this.okdata = okdata;
+        this.okdate = okdate;
     }
 
     public String getReminddata() {
-        return reminddata;
+        return reminddate;
     }
 
     public void setReminddata(String reminddata) {
-        this.reminddata = reminddata;
+        this.reminddate = reminddata;
     }
 
     @Override
@@ -89,8 +99,8 @@ public class Orders {
                 ", coid=" + coid +
                 ", ordermoney=" + ordermoney +
                 ", state=" + state +
-                ", okdata='" + okdata + '\'' +
-                ", reminddata='" + reminddata + '\'' +
+                ", okdate='" + okdate + '\'' +
+                ", reminddata='" + reminddate + '\'' +
                 '}';
     }
 }

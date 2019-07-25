@@ -13,6 +13,34 @@ public class Record {
     private Integer customerid;
     private Integer empid;
 
+    private Customer customer;
+    private Employee employee;
+    private Orders orders;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
+    }
+
     public Record() {
     }
 

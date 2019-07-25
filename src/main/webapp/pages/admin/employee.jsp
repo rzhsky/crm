@@ -123,7 +123,6 @@
                     body.contents().find("#id").val(data.id);
                     body.contents().find("#dept").val(data.department.id);
                     body.contents().find("#position").val(data.position.id);
-
                     body.contents().find("#empname").val(data.empname);
                     body.contents().find("input:radio[value='" + data.sex + "']").attr('checked', 'true');//$("input:radio[value='rd2']").attr('checked','true');
                     body.contents().find("#phone").val(data.phone);
